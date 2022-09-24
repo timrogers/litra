@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperaturePercentage = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.getDevice = void 0;
+exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperaturePercentage = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevice = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 const VENDOR_ID = 0x046d;
@@ -17,8 +17,8 @@ const PRODUCT_ID = 0xc900;
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-const getDevice = () => new node_hid_1.default.HID(VENDOR_ID, PRODUCT_ID);
-exports.getDevice = getDevice;
+const findDevice = () => new node_hid_1.default.HID(VENDOR_ID, PRODUCT_ID);
+exports.findDevice = findDevice;
 /**
  * Turns your Logitech Litra Glow device on.
  *
@@ -68,7 +68,9 @@ const setTemperaturePercentage = (device, temperaturePercentage) => {
     if (temperaturePercentage < 0 || temperaturePercentage > 100) {
         throw 'Percentage must be between 0 and 100';
     }
-    return (0, exports.setTemperatureInKelvin)(device, (0, utils_1.percentageWithinRange)(temperaturePercentage, MINIMUM_TEMPERATURE_IN_KELVIN, MAXIMUM_TEMPERATURE_IN_KELVIN));
+    return (0, exports.setTemperatureInKelvin)(device, temperaturePercentage === 0
+        ? MINIMUM_TEMPERATURE_IN_KELVIN
+        : (0, utils_1.percentageWithinRange)(temperaturePercentage, MINIMUM_TEMPERATURE_IN_KELVIN, MAXIMUM_TEMPERATURE_IN_KELVIN));
 };
 exports.setTemperaturePercentage = setTemperaturePercentage;
 const MINIMUM_BRIGHTNESS_IN_LUMEN = 20;
@@ -102,6 +104,8 @@ const setBrightnessPercentage = (device, brightnessPercentage) => {
     if (brightnessPercentage < 0 || brightnessPercentage > 100) {
         throw 'Percentage must be between 0 and 100';
     }
-    return (0, exports.setBrightnessInLumen)(device, (0, utils_1.percentageWithinRange)(brightnessPercentage, MINIMUM_BRIGHTNESS_IN_LUMEN, MAXIMUM_BRIGHTNESS_IN_LUMEN));
+    return (0, exports.setBrightnessInLumen)(device, brightnessPercentage === 0
+        ? MINIMUM_BRIGHTNESS_IN_LUMEN
+        : (0, utils_1.percentageWithinRange)(brightnessPercentage, MINIMUM_BRIGHTNESS_IN_LUMEN, MAXIMUM_BRIGHTNESS_IN_LUMEN));
 };
 exports.setBrightnessPercentage = setBrightnessPercentage;

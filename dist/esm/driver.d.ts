@@ -11,7 +11,7 @@ export interface Device {
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-export declare const getDevice: () => Device;
+export declare const findDevice: () => Device;
 /**
  * Turns your Logitech Litra Glow device on.
  *

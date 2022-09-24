@@ -11,7 +11,7 @@ const PRODUCT_ID = 0xc900;
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-export const getDevice = () => new HID.HID(VENDOR_ID, PRODUCT_ID);
+export const findDevice = () => new HID.HID(VENDOR_ID, PRODUCT_ID);
 /**
  * Turns your Logitech Litra Glow device on.
  *
@@ -58,7 +58,9 @@ export const setTemperaturePercentage = (device, temperaturePercentage) => {
     if (temperaturePercentage < 0 || temperaturePercentage > 100) {
         throw 'Percentage must be between 0 and 100';
     }
-    return setTemperatureInKelvin(device, percentageWithinRange(temperaturePercentage, MINIMUM_TEMPERATURE_IN_KELVIN, MAXIMUM_TEMPERATURE_IN_KELVIN));
+    return setTemperatureInKelvin(device, temperaturePercentage === 0
+        ? MINIMUM_TEMPERATURE_IN_KELVIN
+        : percentageWithinRange(temperaturePercentage, MINIMUM_TEMPERATURE_IN_KELVIN, MAXIMUM_TEMPERATURE_IN_KELVIN));
 };
 const MINIMUM_BRIGHTNESS_IN_LUMEN = 20;
 const MAXIMUM_BRIGHTNESS_IN_LUMEN = 250;
@@ -90,5 +92,7 @@ export const setBrightnessPercentage = (device, brightnessPercentage) => {
     if (brightnessPercentage < 0 || brightnessPercentage > 100) {
         throw 'Percentage must be between 0 and 100';
     }
-    return setBrightnessInLumen(device, percentageWithinRange(brightnessPercentage, MINIMUM_BRIGHTNESS_IN_LUMEN, MAXIMUM_BRIGHTNESS_IN_LUMEN));
+    return setBrightnessInLumen(device, brightnessPercentage === 0
+        ? MINIMUM_BRIGHTNESS_IN_LUMEN
+        : percentageWithinRange(brightnessPercentage, MINIMUM_BRIGHTNESS_IN_LUMEN, MAXIMUM_BRIGHTNESS_IN_LUMEN));
 };
