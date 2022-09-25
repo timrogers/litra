@@ -8,7 +8,7 @@ With this driver, you can:
 * Set the brightness of your light
 * Set the temperature of your light
 
-## Compatability
+## Compatibility
 
 This library is only tested on macOS Monterey (12.5). It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
 
