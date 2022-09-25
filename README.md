@@ -1,6 +1,6 @@
 # Logitech Litra Glow
 
-This JavaScript library allows you to control your [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html) light programatically.
+This JavaScript driver allows you to control your [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html) light using a CLI and from your JavaScript code.
 
 With this driver, you can:
 
@@ -12,17 +12,25 @@ With this driver, you can:
 
 This library is only tested on macOS Monterey (12.5). It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
 
-## Installation
+## Using as a command line tool
 
-Simply add the `litra-glow` Node.js package to your `package.json`:
+Make sure you have Node.js available on your machine, and then install the package with `npm install -g litra-glow`.
+
+With the package installed, use the `litra-on` and `litra-off` commands to turn your light on and off.
+
+## Using as a JavaScript library
+
+### Installation
+
+Simply add the `litra-glow` Node.js package to your `package.json` and install it:
 
 ```sh
 npm install --save litra-glow
 ```
 
-## Usage
+### Usage
 
-### Checking if a Litra Glow is plugged in
+#### Checking if a Litra Glow is plugged in
 
 The `findDevice` function checks your computer to find whether a Logitech Litra Glow is plugged in. 
 
@@ -36,7 +44,7 @@ const device = findDevice();
 
 If you're a *huge* fan of the Litra Glow and you have multipled plugged in at the same time, it'll return whatever one it happens to find first.
 
-### Turning your Litra Glow on or off
+#### Turning your Litra Glow on or off
 
 Find your device with `findDevice`, and then use the simple `turnOn` and `turnOff` functions. They just take one parameter: the device.
 
@@ -50,7 +58,7 @@ turnOn(device);
 setTimeout(() => turnOff(device), 5000));
 ```
 
-### Setting the brightness of your Litra Glow
+#### Setting the brightness of your Litra Glow
 
 You can set the brightness of your Litra Glow, measured in Lumen, using the `setBrightnessInLumen` function. The Litra Glow supports brightness between 20 and 250 Lumen:
 
@@ -72,7 +80,7 @@ const device = findDevice();
 setBrightnessPercentage(device, 75);
 ```
 
-### Setting the temperature of your Litra Glow
+#### Setting the temperature of your Litra Glow
 
 You can set the temperature of your Litra Glow, measured in Kelvin, using the `setTemperatureInKelvin` function. The Litra Glow supports temperature between 2700 and 6500 Kelvin:
 
