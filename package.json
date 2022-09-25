@@ -1,7 +1,7 @@
 {
   "name": "litra-glow",
   "version": "0.0.0-development",
-  "description": "A JavaScript package, including TypeScript types, for programatically controlling your Logitech Litra Glow light",
+  "description": "A driver for controlling your Logitech Litra Glow light from a CLI or your JavaScript code",
   "main": "./dist/commonjs/driver.js",
   "module": "./dist/esm/driver.js",
   "homepage": "https://github.com/timrogers/litra-glow",
