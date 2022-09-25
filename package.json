@@ -42,5 +42,9 @@
   },
   "release": {
     "branches": ["main"]
+  },
+  "bin": {
+    "litra-on": "./dist/commonjs/cli/litra-on.js",
+    "litra-off": "./dist/commonjs/cli/litra-off.js"
   }
 }
