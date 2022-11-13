@@ -4,13 +4,13 @@ const VENDOR_ID = 0x046d;
 const PRODUCT_ID = 0xc900;
 const USAGE_PAGE = 0xff43;
 /**
- * Finds your Logitech Litra Glow device and returns it. Throws an
- * error if a matching device cannot be found connected to your
- * computer.
+ * Finds your Logitech Litra Glow device and returns it. Returns `null`
+ * if a matching device cannot be found connected to your computer.
  *
- * @returns {Device} An object representing your Logitech Litra Glow
- * device, passed into other functions like `turnOn` and
- * `setTemperatureInKelvin`
+ * @returns {Device, null} An object representing your Logitech Litra
+ * Glow device, passed into other functions like `turnOn` and
+ * `setTemperatureInKelvin` - or `null` if a matching device cannot be
+ * found connected to your computer.
  */
 export const findDevice = () => {
     const matchingDevice = HID.devices().find((device) => device.vendorId === VENDOR_ID &&
@@ -20,7 +20,7 @@ export const findDevice = () => {
         return new HID.HID(matchingDevice.path);
     }
     else {
-        throw 'Device not found';
+        return null;
     }
 };
 /**

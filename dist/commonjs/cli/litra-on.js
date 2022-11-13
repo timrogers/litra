@@ -4,7 +4,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./../driver");
 try {
     const device = (0, driver_1.findDevice)();
-    (0, driver_1.turnOn)(device);
+    if (device) {
+        (0, driver_1.turnOn)(device);
+    }
+    else {
+        throw 'Device not found';
+    }
     process.exit(0);
 }
 catch (e) {
