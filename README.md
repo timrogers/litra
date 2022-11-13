@@ -34,15 +34,21 @@ npm install --save litra-glow
 
 The `findDevice` function checks your computer to find whether a Logitech Litra Glow is plugged in. 
 
-If it is, an object representing the device is returned, which you can pass into other function. If it isn't, an error is thrown.
+If it is, it returns an object representing the device, which you can pass into other function. If it isn't, it returns `null`.
 
 ```js
 import { findDevice } from 'litra-glow';
 
 const device = findDevice();
+
+if (device) {
+  // Do something
+} else {
+  // Blow up
+}
 ```
 
-If you're a *huge* fan of the Litra Glow and you have multipled plugged in at the same time, it'll return whatever one it happens to find first.
+If you're a *huge* fan of the Litra Glow and you have multiple plugged in at the same time, it'll return whatever one it happens to find first.
 
 #### Turning your Litra Glow on or off
 
@@ -54,8 +60,10 @@ import { findDevice, turnOff, turnOn } from 'litra-glow';
 const device = findDevice();
 
 // Turn your light on, then turn it off again after 5 seconds
-turnOn(device);
-setTimeout(() => turnOff(device), 5000));
+if (device) {
+  turnOn(device);
+  setTimeout(() => turnOff(device), 5000));
+}
 ```
 
 #### Setting the brightness of your Litra Glow
@@ -67,7 +75,9 @@ import { findDevice, setBrightnessInLumen } from 'litra-glow';
 
 const device = findDevice();
 
-setBrightnessInLumen(device, 150);
+if (device) {
+  setBrightnessInLumen(device, 150);
+}
 ```
 
 You can also set brightness level to a percentage with `setBrightnessPercentage` if you don't want to think in Lumen:
@@ -77,7 +87,9 @@ import { findDevice, setBrightnessPercentage } from 'litra-glow';
 
 const device = findDevice();
 
-setBrightnessPercentage(device, 75);
+if (device) {
+  setBrightnessPercentage(device, 75);
+}
 ```
 
 #### Setting the temperature of your Litra Glow
@@ -89,7 +101,9 @@ import { findDevice, setTemperatureInKelvin } from 'litra-glow';
 
 const device = findDevice();
 
-setTemperatureInKelvin(device, 4500);
+if (device) {
+  setTemperatureInKelvin(device, 4500);
+}
 ```
 
 You can also set brightness level to a percentage with `setTemperaturePercentage` if you don't want to think in Lumen:
@@ -99,5 +113,7 @@ import { findDevice, setTemperaturePercentage } from 'litra-glow';
 
 const device = findDevice();
 
-setTemperaturePercentage(device, 75);
+if (device) {
+  setTemperaturePercentage(device, 75);
+}
 ```

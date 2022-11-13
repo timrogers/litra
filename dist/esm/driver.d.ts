@@ -3,15 +3,15 @@ export interface Device {
     write: (values: number[] | Buffer) => number;
 }
 /**
- * Finds your Logitech Litra Glow device and returns it. Throws an
- * error if a matching device cannot be found connected to your
- * computer.
+ * Finds your Logitech Litra Glow device and returns it. Returns `null`
+ * if a matching device cannot be found connected to your computer.
  *
- * @returns {Device} An object representing your Logitech Litra Glow
- * device, passed into other functions like `turnOn` and
- * `setTemperatureInKelvin`
+ * @returns {Device, null} An object representing your Logitech Litra
+ * Glow device, passed into other functions like `turnOn` and
+ * `setTemperatureInKelvin` - or `null` if a matching device cannot be
+ * found connected to your computer.
  */
-export declare const findDevice: () => Device;
+export declare const findDevice: () => Device | null;
 /**
  * Turns your Logitech Litra Glow device on.
  *

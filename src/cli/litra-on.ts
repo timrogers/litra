@@ -4,7 +4,13 @@ import { findDevice, turnOn } from './../driver';
 
 try {
   const device = findDevice();
-  turnOn(device);
+
+  if (device) {
+    turnOn(device);
+  } else {
+    throw 'Device not found';
+  }
+
   process.exit(0);
 } catch (e) {
   console.log(e);
