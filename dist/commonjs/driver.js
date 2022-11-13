@@ -8,6 +8,7 @@ const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 const VENDOR_ID = 0x046d;
 const PRODUCT_ID = 0xc900;
+const USAGE_PAGE = 0xff43;
 /**
  * Finds your Logitech Litra Glow device and returns it. Throws an
  * error if a matching device cannot be found connected to your
@@ -17,7 +18,17 @@ const PRODUCT_ID = 0xc900;
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-const findDevice = () => new node_hid_1.default.HID(VENDOR_ID, PRODUCT_ID);
+const findDevice = () => {
+    const matchingDevice = node_hid_1.default.devices().find((device) => device.vendorId === VENDOR_ID &&
+        device.productId === PRODUCT_ID &&
+        device.usagePage === USAGE_PAGE);
+    if (matchingDevice) {
+        return new node_hid_1.default.HID(matchingDevice.path);
+    }
+    else {
+        throw 'Device not found';
+    }
+};
 exports.findDevice = findDevice;
 /**
  * Turns your Logitech Litra Glow device on.
