@@ -2,6 +2,7 @@ import HID from 'node-hid';
 import { integerToBytes, padRight, percentageWithinRange } from './utils';
 const VENDOR_ID = 0x046d;
 const PRODUCT_ID = 0xc900;
+const USAGE_PAGE = 0xff43;
 /**
  * Finds your Logitech Litra Glow device and returns it. Throws an
  * error if a matching device cannot be found connected to your
@@ -11,7 +12,17 @@ const PRODUCT_ID = 0xc900;
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-export const findDevice = () => new HID.HID(VENDOR_ID, PRODUCT_ID);
+export const findDevice = () => {
+    const matchingDevice = HID.devices().find((device) => device.vendorId === VENDOR_ID &&
+        device.productId === PRODUCT_ID &&
+        device.usagePage === USAGE_PAGE);
+    if (matchingDevice) {
+        return new HID.HID(matchingDevice.path);
+    }
+    else {
+        throw 'Device not found';
+    }
+};
 /**
  * Turns your Logitech Litra Glow device on.
  *

@@ -4,6 +4,7 @@ import { integerToBytes, padRight, percentageWithinRange } from './utils';
 
 const VENDOR_ID = 0x046d;
 const PRODUCT_ID = 0xc900;
+const USAGE_PAGE = 0xff43;
 
 // Conforms to the interface of `node-hid`'s `HID.HID`. Useful for mocking.
 export interface Device {
@@ -19,7 +20,20 @@ export interface Device {
  * device, passed into other functions like `turnOn` and
  * `setTemperatureInKelvin`
  */
-export const findDevice = (): Device => new HID.HID(VENDOR_ID, PRODUCT_ID);
+export const findDevice = (): Device => {
+  const matchingDevice = HID.devices().find(
+    (device) =>
+      device.vendorId === VENDOR_ID &&
+      device.productId === PRODUCT_ID &&
+      device.usagePage === USAGE_PAGE,
+  );
+
+  if (matchingDevice) {
+    return new HID.HID(matchingDevice.path as string);
+  } else {
+    throw 'Device not found';
+  }
+};
 
 /**
  * Turns your Logitech Litra Glow device on.
