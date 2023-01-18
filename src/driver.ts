@@ -3,7 +3,10 @@ import HID from 'node-hid';
 import { integerToBytes, padRight, percentageWithinRange } from './utils';
 
 const VENDOR_ID = 0x046d;
-const PRODUCT_ID = 0xc900;
+const PRODUCT_IDS = [
+  0xc900, // Litra Glow
+  0xc901, // Litra Beam
+];
 const USAGE_PAGE = 0xff43;
 
 // Conforms to the interface of `node-hid`'s `HID.HID`. Useful for mocking.
@@ -24,7 +27,7 @@ export const findDevice = (): Device | null => {
   const matchingDevice = HID.devices().find(
     (device) =>
       device.vendorId === VENDOR_ID &&
-      device.productId === PRODUCT_ID &&
+      PRODUCT_IDS.includes(device.productId, 0) &&
       device.usagePage === USAGE_PAGE,
   );
 
