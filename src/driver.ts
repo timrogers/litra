@@ -27,7 +27,7 @@ export const findDevice = (): Device | null => {
   const matchingDevice = HID.devices().find(
     (device) =>
       device.vendorId === VENDOR_ID &&
-      PRODUCT_IDS.includes(device.productId, 0) &&
+      PRODUCT_IDS.includes(device.productId) &&
       device.usagePage === USAGE_PAGE,
   );
 
