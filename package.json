@@ -41,10 +41,16 @@
     "url": "https://github.com/timrogers/litra-glow.git"
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "main"
+    ]
   },
   "bin": {
     "litra-on": "./dist/commonjs/cli/litra-on.js",
-    "litra-off": "./dist/commonjs/cli/litra-off.js"
+    "litra-off": "./dist/commonjs/cli/litra-off.js",
+    "litra-brightness": "./dist/commonjs/cli/litra-brightness.js",
+    "litra-brightness-lm": "./dist/commonjs/cli/litra-brightness-lm.js",
+    "litra-temperature": "./dist/commonjs/cli/litra-temperature-lm.js",
+    "litra-temperature-k": "./dist/commonjs/cli/litra-temperature-k.js"
   }
 }
