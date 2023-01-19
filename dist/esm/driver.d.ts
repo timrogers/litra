@@ -1,39 +1,46 @@
 /// <reference types="node" />
+export declare enum DeviceType {
+    LitraGlow = "litra_glow",
+    LitraBeam = "litra_beam"
+}
 export interface Device {
-    write: (values: number[] | Buffer) => number;
+    hid: {
+        write: (values: number[] | Buffer) => number;
+    };
+    type: DeviceType;
 }
 /**
- * Finds your Logitech Litra Glow device and returns it. Returns `null`
- * if a matching device cannot be found connected to your computer.
+ * Finds your Logitech Litra device and returns it. Returns `null` if a
+ * supported device cannot be found connected to your computer.
  *
- * @returns {Device, null} An object representing your Logitech Litra
- * Glow device, passed into other functions like `turnOn` and
- * `setTemperatureInKelvin` - or `null` if a matching device cannot be
- * found connected to your computer.
+ * @returns {Device, null} An object representing your Logitech Litra device,
+ * passed into other functions like `turnOn` and `setTemperatureInKelvin` -
+ * or `null` if a matching device cannot be found connected to your computer.
  */
 export declare const findDevice: () => Device | null;
 /**
- * Turns your Logitech Litra Glow device on.
+ * Turns your Logitech Litra device on.
  *
  * @param {Device} device The device to set the temperature of
  */
 export declare const turnOn: (device: Device) => void;
 /**
- * Turns your Logitech Litra Glow device off.
+ * Turns your Logitech Litra device off.
  *
  * @param {Device} device The device to set the temperature of
  */
 export declare const turnOff: (device: Device) => void;
 /**
- * Sets the temperature of your Logitech Litra Glow device
+ * Sets the temperature of your Logitech Litra device
  *
  * @param {Device} device The device to set the temperature of
- * @param {number} temperatureInKelvin The temperature to set in Kelvin, which
- * must be an integer between 2700 and 6500
+ * @param {number} temperatureInKelvin The temperature to set in Kelvin. Use the
+ *  `getMinimumTemperatureInKelvinForDevice` and `getMaximumTemperatureInKelvinForDevice`
+ *  functions to get the minimum and maximum temperature for your device.
  */
 export declare const setTemperatureInKelvin: (device: Device, temperatureInKelvin: number) => void;
 /**
- * Set the temperature of your Logitech Litra Glow device to a percentage
+ * Set the temperature of your Logitech Litra device to a percentage
  * of the device's maximum temperature
  *
  * @param {Device} device The device to set the temperature of
@@ -41,18 +48,47 @@ export declare const setTemperatureInKelvin: (device: Device, temperatureInKelvi
  */
 export declare const setTemperaturePercentage: (device: Device, temperaturePercentage: number) => void;
 /**
- * Sets the brightness of your Logitech Litra Glow device, measured in Lumen
+ * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
  * @param {Device} device The device to set the temperature of
- * @param {number} brightnessInLumens The brightness to set in Lumen, which
- * must be an integer between 20 and 250
+ * @param {number} brightnessInLumen The brightness to set in Lumen. Use the
+ *  `getMinimumBrightnessInLumenForDevice` and `getMaximumBrightnessInLumenForDevice`
+ *  functions to get the minimum and maximum brightness for your device.
  */
 export declare const setBrightnessInLumen: (device: Device, brightnessInLumen: number) => void;
 /**
- * Set the brightness of your Logitech Litra Glow device to a percentage
+ * Set the brightness of your Logitech Litra device to a percentage
  * of the device's maximum brightness
  *
  * @param {Device} device The device to set the brightness of
  * @param {number} brightnessPercentage The percentage to set the brightness to
  */
 export declare const setBrightnessPercentage: (device: Device, brightnessPercentage: number) => void;
+/**
+ * Gets the minimum brightness in Lumen supported by a device
+ *
+ * @param {Device} device The device to check the minimum brightness for
+ * @returns {number} The minimum brightness in Lumen supported by the device
+ */
+export declare const getMinimumBrightnessInLumenForDevice: (device: Device) => number;
+/**
+ * Gets the maximum brightness in Lumen supported by a device
+ *
+ * @param {Device} device The device to check the maximum brightness for
+ * @returns {number} The maximum brightness in Lumen supported by the device
+ */
+export declare const getMaximumBrightnessInLumenForDevice: (device: Device) => number;
+/**
+ * Gets the minimum temperature in Kelvin supported by a device
+ *
+ * @param {Device} device The device to check the minimum temperature for
+ * @returns {number} The minimum temperature in Kelvin supported by the device
+ */
+export declare const getMinimumTemperatureInKelvinForDevice: (device: Device) => number;
+/**
+ * Gets the maximum temperature in Kelvin supported by a device
+ *
+ * @param {Device} device The device to check the maximum temperature for
+ * @returns {number} The maximum temperature in Kelvin supported by the device
+ */
+export declare const getMaximumTemperatureInKelvinForDevice: (device: Device) => number;
