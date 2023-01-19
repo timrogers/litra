@@ -14,7 +14,7 @@ This library is only tested on macOS Monterey (12.5). It's powered by [`node-hid
 
 ## Using as a command line tool
 
-Make sure you have Node.js available on your machine, and then install the package with `npm install -g litra-glow`.
+Make sure you have Node.js available on your machine, and then install the package with `npm install -g litra`.
 
 With the package installed, use the `litra-on` and `litra-off` commands to turn your light on and off.
 
@@ -22,10 +22,10 @@ With the package installed, use the `litra-on` and `litra-off` commands to turn 
 
 ### Installation
 
-Simply add the `litra-glow` Node.js package to your `package.json` and install it:
+Simply add the `litra` Node.js package to your `package.json` and install it:
 
 ```sh
-npm install --save litra-glow
+npm install --save litra
 ```
 
 ### Usage
@@ -37,7 +37,7 @@ The `findDevice` function checks your computer to find whether a Logitech Litra 
 If it is, it returns an object representing the device, which you can pass into other function. If it isn't, it returns `null`.
 
 ```js
-import { findDevice } from 'litra-glow';
+import { findDevice } from 'litra';
 
 const device = findDevice();
 
@@ -57,7 +57,7 @@ If you're a *huge* fan of Litra devices and you have multiple plugged in at the 
 Find your device with `findDevice`, and then use the simple `turnOn` and `turnOff` functions. They just take one parameter: the device.
 
 ```js
-import { findDevice, turnOff, turnOn } from 'litra-glow';
+import { findDevice, turnOff, turnOn } from 'litra';
 
 const device = findDevice();
 
@@ -77,7 +77,7 @@ The Litra Glow supports brightness between 20 and 250 Lumen. The Litra Beam supp
 You can programatically check what brightness levels are supported by your device. Once you know what brightness levels are supported, you can set the brightness in Lumen. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
 ```js
-import { findDevice, getMaximumBrightnessInLumenForDevice, getMinimumBrightnessInLumenForDevice, setBrightnessInLumen } from 'litra-glow';
+import { findDevice, getMaximumBrightnessInLumenForDevice, getMinimumBrightnessInLumenForDevice, setBrightnessInLumen } from 'litra';
 
 const device = findDevice();
 
@@ -94,7 +94,7 @@ if (device) {
 You can also set brightness level to a percentage with `setBrightnessPercentage` if you don't want to think in Lumen:
 
 ```js
-import { findDevice, setBrightnessPercentage } from 'litra-glow';
+import { findDevice, setBrightnessPercentage } from 'litra';
 
 const device = findDevice();
 
@@ -112,7 +112,7 @@ Both the Litra Glow and Litra Beam support temperatures between 2700 and 6500 Ke
 You can check programatically what temperature levels are supported by your device. Once you know what temperature levels are supported, you can set the temperature in Kelvin. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
 ```js
-import { findDevice, getMaximumTemperatureInKelvinForDevice, getMinimumTemperatureInKelvinForDevice, setTemperatureInKelvin } from 'litra-glow';
+import { findDevice, getMaximumTemperatureInKelvinForDevice, getMinimumTemperatureInKelvinForDevice, setTemperatureInKelvin } from 'litra';
 
 const device = findDevice();
 
@@ -129,7 +129,7 @@ if (device) {
 You can also set temperature level to a percentage with `setTemperaturePercentage` if you don't want to think in Kelvin:
 
 ```js
-import { findDevice, setTemperaturePercentage } from 'litra-glow';
+import { findDevice, setTemperaturePercentage } from 'litra';
 
 const device = findDevice();
 
