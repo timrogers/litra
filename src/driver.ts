@@ -16,7 +16,7 @@ const USAGE_PAGE = 0xff43;
 
 const MINIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
   [DeviceType.LitraGlow]: 20,
-  [DeviceType.LitraBeam]: 20,
+  [DeviceType.LitraBeam]: 30,
 };
 
 const MAXIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
