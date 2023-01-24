@@ -159,7 +159,7 @@ describe('setBrightnessInLumen', () => {
     const fakeLitraBeam = { type: DeviceType.LitraBeam, hid: { write: jest.fn() } };
 
     expect(() => setBrightnessInLumen(fakeLitraBeam, 19)).toThrowError(
-      'Provided brightness must be between 20 and 400',
+      'Provided brightness must be between 30 and 400',
     );
   });
 
@@ -173,7 +173,7 @@ describe('setBrightnessInLumen', () => {
     const fakeLitraBeam = { type: DeviceType.LitraBeam, hid: { write: jest.fn() } };
 
     expect(() => setBrightnessInLumen(fakeLitraBeam, 401)).toThrowError(
-      'Provided brightness must be between 20 and 400',
+      'Provided brightness must be between 30 and 400',
     );
   });
 
@@ -219,7 +219,7 @@ describe('setBrightnessPercentage', () => {
     setBrightnessPercentage(fakeLitraBeam, 0);
 
     expect(fakeLitraBeam.hid.write).toBeCalledWith([
-      17, 255, 4, 76, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      17, 255, 4, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
@@ -248,7 +248,7 @@ describe('getMinimumBrightnessInLumenForDevice', () => {
 
   it('returns the correct minimum brightness for a Litra Beam', () => {
     const fakeDevice = { type: DeviceType.LitraBeam, hid: { write: jest.fn() } };
-    expect(getMinimumBrightnessInLumenForDevice(fakeDevice)).toEqual(20);
+    expect(getMinimumBrightnessInLumenForDevice(fakeDevice)).toEqual(30);
   });
 });
 
