@@ -85,14 +85,8 @@ export const findDevice = (): Device | null => {
  * Array will be empty if no matching devices could be found connected to your computer.
  */
 export const findDevices = (): Device[] => {
-  const devices: Device[] = [];
-  const matchingDevices = HID.devices().filter((device) => isLitraDevice(device));
-
-  for (const device of matchingDevices) {
-    devices.push(HIDDeviceToDevice(device));
-  }
-
-  return devices;
+  const matchingDevices = HID.devices().filter(isLitraDevice);
+  return matchingDevices.map(hidDeviceToDevice);
 };
 
 /**
@@ -167,10 +161,10 @@ export const setTemperaturePercentage = (
     temperaturePercentage === 0
       ? minimumTemperature
       : percentageWithinRange(
-        temperaturePercentage,
-        minimumTemperature,
-        maximumTemperature,
-      ),
+          temperaturePercentage,
+          minimumTemperature,
+          maximumTemperature,
+        ),
   );
 };
 
