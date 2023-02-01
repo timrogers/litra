@@ -161,10 +161,10 @@ export const setTemperaturePercentage = (
     temperaturePercentage === 0
       ? minimumTemperature
       : percentageWithinRange(
-        temperaturePercentage,
-        minimumTemperature,
-        maximumTemperature,
-      ),
+          temperaturePercentage,
+          minimumTemperature,
+          maximumTemperature,
+        ),
   );
 };
 
