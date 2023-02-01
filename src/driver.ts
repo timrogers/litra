@@ -76,7 +76,7 @@ export const findDevice = (): Device | null => {
 };
 
 /**
- * Finds one more more Logitech Litra devices and returns them.
+ * Finds one or more Logitech Litra devices and returns them.
  * Returns an empty `Array` if no supported devices could be found
  * connected to your computer.
  *
