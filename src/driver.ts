@@ -50,7 +50,7 @@ const isLitraDevice = (device: HID.Device): boolean => {
   );
 };
 
-const HIDDeviceToDevice = (hidDevice: HID.Device): Device => {
+const hidDeviceToDevice = (hidDevice: HID.Device): Device => {
   return {
     type: getDeviceTypeByProductId(hidDevice.productId),
     hid: new HID.HID(hidDevice.path as string),
