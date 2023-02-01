@@ -89,7 +89,7 @@ export const findDevices = (): Device[] => {
   const matchingDevices = HID.devices().filter(isLitraDevice);
 
   for (const device of matchingDevices) {
-    devices.push(HIDDeviceToDevice(device));
+    devices.push(hidDeviceToDevice(device));
   }
 
   return devices;
