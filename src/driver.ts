@@ -69,7 +69,7 @@ export const findDevice = (): Device | null => {
   const matchingDevice = HID.devices().find(isLitraDevice);
 
   if (matchingDevice) {
-    return HIDDeviceToDevice(matchingDevice);
+    return hidDeviceToDevice(matchingDevice);
   } else {
     return null;
   }
