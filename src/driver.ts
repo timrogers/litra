@@ -42,6 +42,21 @@ export interface Device {
   type: DeviceType;
 }
 
+const isLitraDevice = (device: HID.Device): boolean => {
+  return (
+    device.vendorId === VENDOR_ID &&
+    PRODUCT_IDS.includes(device.productId) &&
+    device.usagePage === USAGE_PAGE
+  );
+};
+
+const HIDDeviceToDevice = (hidDevice: HID.Device): Device => {
+  return {
+    type: getDeviceTypeByProductId(hidDevice.productId),
+    hid: new HID.HID(hidDevice.path as string),
+  };
+};
+
 /**
  * Finds your Logitech Litra device and returns it. Returns `null` if a
  * supported device cannot be found connected to your computer.
@@ -51,21 +66,33 @@ export interface Device {
  * or `null` if a matching device cannot be found connected to your computer.
  */
 export const findDevice = (): Device | null => {
-  const matchingDevice = HID.devices().find(
-    (device) =>
-      device.vendorId === VENDOR_ID &&
-      PRODUCT_IDS.includes(device.productId) &&
-      device.usagePage === USAGE_PAGE,
-  );
+  const matchingDevice = HID.devices().find((device) => isLitraDevice(device));
 
   if (matchingDevice) {
-    return {
-      type: getDeviceTypeByProductId(matchingDevice.productId),
-      hid: new HID.HID(matchingDevice.path as string),
-    };
+    return HIDDeviceToDevice(matchingDevice);
   } else {
     return null;
   }
+};
+
+/**
+ * Finds one more more Logitech Litra devices and returns them.
+ * Returns an empty `Array` if no supported devices could be found
+ * connected to your computer.
+ *
+ * @returns {Device[], null} An Array representing your Logitech Litra devices,
+ * passed into other functions like `turnOn` and `setTemperatureInKelvin`. The
+ * Array will be empty if no matching devices could be found connected to your computer.
+ */
+export const findDevices = (): Device[] => {
+  const devices: Device[] = [];
+  const matchingDevices = HID.devices().filter((device) => isLitraDevice(device));
+
+  for (const device of matchingDevices) {
+    devices.push(HIDDeviceToDevice(device));
+  }
+
+  return devices;
 };
 
 /**
@@ -140,10 +167,10 @@ export const setTemperaturePercentage = (
     temperaturePercentage === 0
       ? minimumTemperature
       : percentageWithinRange(
-          temperaturePercentage,
-          minimumTemperature,
-          maximumTemperature,
-        ),
+        temperaturePercentage,
+        minimumTemperature,
+        maximumTemperature,
+      ),
   );
 };
 
