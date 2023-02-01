@@ -66,7 +66,7 @@ const hidDeviceToDevice = (hidDevice: HID.Device): Device => {
  * or `null` if a matching device cannot be found connected to your computer.
  */
 export const findDevice = (): Device | null => {
-  const matchingDevice = HID.devices().find((device) => isLitraDevice(device));
+  const matchingDevice = HID.devices().find(isLitraDevice);
 
   if (matchingDevice) {
     return HIDDeviceToDevice(matchingDevice);
