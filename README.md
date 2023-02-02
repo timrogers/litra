@@ -50,7 +50,22 @@ if (device) {
 }
 ```
 
-If you're a *huge* fan of Litra devices and you have multiple plugged in at the same time, it'll return whatever one it happens to find first.
+If you're a *huge* fan of Litra devices and you have multiple plugged in at the same time, use `findDevices` instead:
+
+```js
+const devices = findDevices();
+
+if (devices.length > 0) {
+  console.log(`Found ${devices.length} devices connected`);
+  for (let i = 0; i < devices.length; ++i) {
+    console.log(`Device ${i + 1}: ${devices[i].type}`);
+  }
+
+  // Do something
+} else {
+  // Blow up
+}
+```
 
 #### Turning your Litra device on or off
 

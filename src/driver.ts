@@ -40,7 +40,24 @@ export interface Device {
     write: (values: number[] | Buffer) => number;
   };
   type: DeviceType;
+  serialNumber: string;
 }
+
+const isLitraDevice = (device: HID.Device): boolean => {
+  return (
+    device.vendorId === VENDOR_ID &&
+    PRODUCT_IDS.includes(device.productId) &&
+    device.usagePage === USAGE_PAGE
+  );
+};
+
+const hidDeviceToDevice = (hidDevice: HID.Device): Device => {
+  return {
+    type: getDeviceTypeByProductId(hidDevice.productId),
+    hid: new HID.HID(hidDevice.path as string),
+    serialNumber: hidDevice.serialNumber as string,
+  };
+};
 
 /**
  * Finds your Logitech Litra device and returns it. Returns `null` if a
@@ -51,21 +68,27 @@ export interface Device {
  * or `null` if a matching device cannot be found connected to your computer.
  */
 export const findDevice = (): Device | null => {
-  const matchingDevice = HID.devices().find(
-    (device) =>
-      device.vendorId === VENDOR_ID &&
-      PRODUCT_IDS.includes(device.productId) &&
-      device.usagePage === USAGE_PAGE,
-  );
+  const matchingDevice = HID.devices().find(isLitraDevice);
 
   if (matchingDevice) {
-    return {
-      type: getDeviceTypeByProductId(matchingDevice.productId),
-      hid: new HID.HID(matchingDevice.path as string),
-    };
+    return hidDeviceToDevice(matchingDevice);
   } else {
     return null;
   }
+};
+
+/**
+ * Finds one or more Logitech Litra devices and returns them.
+ * Returns an empty `Array` if no supported devices could be found
+ * connected to your computer.
+ *
+ * @returns {Device[], null} An Array representing your Logitech Litra devices,
+ * passed into other functions like `turnOn` and `setTemperatureInKelvin`. The
+ * Array will be empty if no matching devices could be found connected to your computer.
+ */
+export const findDevices = (): Device[] => {
+  const matchingDevices = HID.devices().filter(isLitraDevice);
+  return matchingDevices.map(hidDeviceToDevice);
 };
 
 /**
