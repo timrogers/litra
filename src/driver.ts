@@ -40,6 +40,7 @@ export interface Device {
     write: (values: number[] | Buffer) => number;
   };
   type: DeviceType;
+  serialNumber?: string;
 }
 
 const isLitraDevice = (device: HID.Device): boolean => {
@@ -54,6 +55,7 @@ const hidDeviceToDevice = (hidDevice: HID.Device): Device => {
   return {
     type: getDeviceTypeByProductId(hidDevice.productId),
     hid: new HID.HID(hidDevice.path as string),
+    serialNumber: hidDevice.serialNumber,
   };
 };
 
