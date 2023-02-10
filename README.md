@@ -16,7 +16,18 @@ This library is only tested on macOS Monterey (12.5). It's powered by [`node-hid
 
 Make sure you have Node.js available on your machine, and then install the package with `npm install -g litra`.
 
-With the package installed, use the `litra-on` and `litra-off` commands to turn your light on and off.
+With the package installed:
+
+* Use the `litra-on` and `litra-off` commands to turn your light on and off.
+* Use the `litra-brightness` command to set your Litra's brightness to a percentage of its maximum (e.g. `litra-brightness 90`).
+* Use the `litra-brightness-lm` command to set your Litra's brightness to a value in Lumen (e.g. `litra-brightness 250`).
+* Use the `litra-temperature` command to set your Litra's temperature to a percentage of its maximum (e.g. `litra-temperature 75`).
+* Use the `litra-temperature-k` command to set your Litra's temperature to a value in Kelvin (e.g. `litra-temperature-k 6500`).
+* Use the `litra-identify` command to interactively identify the serial numbers of your Litra devices, if you have multiple connected.
+
+All of the above commands can be run with `--help` for more detailed documentation. 
+
+All of the commands except `litra-identify` support a `--serial-number`/`-s` argument to specify the serial number of the device you want to target. If you only have one Litra device, you can omit this argument. If you have multiple devices, we recommend specifying it. If it isn't specified, the "first" device will be picked, but this isn't guaranteed to be stable between command runs.
 
 ## Using as a JavaScript library
 
@@ -152,3 +163,11 @@ if (device) {
   setTemperaturePercentage(device, 75);
 }
 ```
+
+## Using with Oversight
+
+Litra integrates with [Oversight](https://objective-see.org/products/oversight.html) to allow you to automatically turn your Litra device on or off when your webcam turns on and off. This allows you to be illuminated every time you join a video call!
+
+To use the integration, just point Oversight at the `litra-oversight` CLI command. You can find the path of the binary on Unix machines by running `which litra-oversight` from a terminal after installing this package.
+
+If you have multiple Litra devices, they will all be targeted when `litra-oversight` runs.
