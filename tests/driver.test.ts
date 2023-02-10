@@ -4,6 +4,7 @@ import {
   getMinimumBrightnessInLumenForDevice,
   getMaximumTemperatureInKelvinForDevice,
   getMinimumTemperatureInKelvinForDevice,
+  getNameForDevice,
   setBrightnessInLumen,
   setBrightnessPercentage,
   setTemperatureInKelvin,
@@ -252,5 +253,15 @@ describe('getMaximumTemperatureInKelvinForDevice', () => {
 
   it('returns the correct maximum temperature for a Litra Beam', () => {
     expect(getMaximumTemperatureInKelvinForDevice(fakeLitraBeam)).toEqual(6500);
+  });
+});
+
+describe('getNameForDevice', () => {
+  it('returns the correct name for a Litra Glow', () => {
+    expect(getNameForDevice(fakeLitraGlow)).toEqual('Logitech Litra Glow');
+  });
+
+  it('returns the correct name for a Litra Beam', () => {
+    expect(getNameForDevice(fakeLitraBeam)).toEqual('Logitech Litra Beam');
   });
 });

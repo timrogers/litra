@@ -34,6 +34,11 @@ const MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
   [DeviceType.LitraBeam]: 6500,
 };
 
+const NAME_BY_DEVICE_TYPE = {
+  [DeviceType.LitraGlow]: 'Logitech Litra Glow',
+  [DeviceType.LitraBeam]: 'Logitech Litra Beam',
+};
+
 // Conforms to the interface of `node-hid`'s `HID.HID`. Useful for mocking.
 export interface Device {
   hid: {
@@ -274,4 +279,14 @@ export const getMinimumTemperatureInKelvinForDevice = (device: Device): number =
  */
 export const getMaximumTemperatureInKelvinForDevice = (device: Device): number => {
   return MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+};
+
+/**
+ * Gets the name of a device
+ *
+ * @param {Device} device The device to get the name for
+ * @returns {string} The name of the device, e.g. "Logitech Litra Glow"
+ */
+export const getNameForDevice = (device: Device): string => {
+  return NAME_BY_DEVICE_TYPE[device.type];
 };
