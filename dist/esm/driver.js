@@ -27,6 +27,22 @@ const MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 6500,
     [DeviceType.LitraBeam]: 6500,
 };
+const NAME_BY_DEVICE_TYPE = {
+    [DeviceType.LitraGlow]: 'Logitech Litra Glow',
+    [DeviceType.LitraBeam]: 'Logitech Litra Beam',
+};
+const isLitraDevice = (device) => {
+    return (device.vendorId === VENDOR_ID &&
+        PRODUCT_IDS.includes(device.productId) &&
+        device.usagePage === USAGE_PAGE);
+};
+const hidDeviceToDevice = (hidDevice) => {
+    return {
+        type: getDeviceTypeByProductId(hidDevice.productId),
+        hid: new HID.HID(hidDevice.path),
+        serialNumber: hidDevice.serialNumber,
+    };
+};
 /**
  * Finds your Logitech Litra device and returns it. Returns `null` if a
  * supported device cannot be found connected to your computer.
@@ -36,18 +52,26 @@ const MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
  * or `null` if a matching device cannot be found connected to your computer.
  */
 export const findDevice = () => {
-    const matchingDevice = HID.devices().find((device) => device.vendorId === VENDOR_ID &&
-        PRODUCT_IDS.includes(device.productId) &&
-        device.usagePage === USAGE_PAGE);
+    const matchingDevice = HID.devices().find(isLitraDevice);
     if (matchingDevice) {
-        return {
-            type: getDeviceTypeByProductId(matchingDevice.productId),
-            hid: new HID.HID(matchingDevice.path),
-        };
+        return hidDeviceToDevice(matchingDevice);
     }
     else {
         return null;
     }
+};
+/**
+ * Finds one or more Logitech Litra devices and returns them.
+ * Returns an empty `Array` if no supported devices could be found
+ * connected to your computer.
+ *
+ * @returns {Device[], null} An Array representing your Logitech Litra devices,
+ * passed into other functions like `turnOn` and `setTemperatureInKelvin`. The
+ * Array will be empty if no matching devices could be found connected to your computer.
+ */
+export const findDevices = () => {
+    const matchingDevices = HID.devices().filter(isLitraDevice);
+    return matchingDevices.map(hidDeviceToDevice);
 };
 /**
  * Turns your Logitech Litra device on.
@@ -189,4 +213,13 @@ export const getMinimumTemperatureInKelvinForDevice = (device) => {
  */
 export const getMaximumTemperatureInKelvinForDevice = (device) => {
     return MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+};
+/**
+ * Gets the name of a device
+ *
+ * @param {Device} device The device to get the name for
+ * @returns {string} The name of the device, e.g. "Logitech Litra Glow"
+ */
+export const getNameForDevice = (device) => {
+    return NAME_BY_DEVICE_TYPE[device.type];
 };

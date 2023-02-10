@@ -8,6 +8,7 @@ export interface Device {
         write: (values: number[] | Buffer) => number;
     };
     type: DeviceType;
+    serialNumber: string;
 }
 /**
  * Finds your Logitech Litra device and returns it. Returns `null` if a
@@ -18,6 +19,16 @@ export interface Device {
  * or `null` if a matching device cannot be found connected to your computer.
  */
 export declare const findDevice: () => Device | null;
+/**
+ * Finds one or more Logitech Litra devices and returns them.
+ * Returns an empty `Array` if no supported devices could be found
+ * connected to your computer.
+ *
+ * @returns {Device[], null} An Array representing your Logitech Litra devices,
+ * passed into other functions like `turnOn` and `setTemperatureInKelvin`. The
+ * Array will be empty if no matching devices could be found connected to your computer.
+ */
+export declare const findDevices: () => Device[];
 /**
  * Turns your Logitech Litra device on.
  *
@@ -92,3 +103,10 @@ export declare const getMinimumTemperatureInKelvinForDevice: (device: Device) =>
  * @returns {number} The maximum temperature in Kelvin supported by the device
  */
 export declare const getMaximumTemperatureInKelvinForDevice: (device: Device) => number;
+/**
+ * Gets the name of a device
+ *
+ * @param {Device} device The device to get the name for
+ * @returns {string} The name of the device, e.g. "Logitech Litra Glow"
+ */
+export declare const getNameForDevice: (device: Device) => string;
