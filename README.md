@@ -23,11 +23,15 @@ With the package installed:
 * Use the `litra-brightness-lm` command to set your Litra's brightness to a value in Lumen (e.g. `litra-brightness 250`).
 * Use the `litra-temperature` command to set your Litra's temperature to a percentage of its maximum (e.g. `litra-temperature 75`).
 * Use the `litra-temperature-k` command to set your Litra's temperature to a value in Kelvin (e.g. `litra-temperature-k 6500`).
-* Use the `litra-identify` command to interactively identify the serial numbers of your Litra devices, if you have multiple connected.
 
-All of the above commands can be run with `--help` for more detailed documentation. 
+All of the these commands support a `--serial-number`/`-s` argument to specify the serial number of the device you want to target. If you only have one Litra device, you can omit this argument. If you have multiple devices, we recommend specifying it. If it isn't specified, the "first" device will be picked, but this isn't guaranteed to be stable between command runs.
 
-All of the commands except `litra-identify` support a `--serial-number`/`-s` argument to specify the serial number of the device you want to target. If you only have one Litra device, you can omit this argument. If you have multiple devices, we recommend specifying it. If it isn't specified, the "first" device will be picked, but this isn't guaranteed to be stable between command runs.
+You can also use:
+
+* `litra-devices` to list Litra devices connected to your machine, including in JSON format with `--json`
+* `litra-identify` to interactively identify the serial numbers of your Litra devices, if you have multiple connected
+
+Each CLI command can also be called with `--help` for more detailed documentation.
 
 ## Using as a JavaScript library
 
