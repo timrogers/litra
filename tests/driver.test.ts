@@ -96,7 +96,7 @@ describe('setTemperatureInKelvin', () => {
 });
 
 describe('setBrightnessInLumen', () => {
-  it('sends the instruction to set the device temperature', () => {
+  it('sends the instruction to set the device brightness', () => {
     setBrightnessInLumen(fakeDevice, 20);
 
     expect(fakeDevice.hid.write).toBeCalledWith([
