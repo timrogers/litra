@@ -51,14 +51,6 @@ export declare const turnOff: (device: Device) => void;
  */
 export declare const setTemperatureInKelvin: (device: Device, temperatureInKelvin: number) => void;
 /**
- * Set the temperature of your Logitech Litra device to a percentage
- * of the device's maximum temperature
- *
- * @param {Device} device The device to set the temperature of
- * @param {number} temperaturePercentage The percentage to set the temperature to
- */
-export declare const setTemperaturePercentage: (device: Device, temperaturePercentage: number) => void;
-/**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
  * @param {Device} device The device to set the temperature of

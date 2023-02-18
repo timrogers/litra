@@ -8,7 +8,6 @@ import {
   setBrightnessInLumen,
   setBrightnessPercentage,
   setTemperatureInKelvin,
-  setTemperaturePercentage,
   turnOff,
   turnOn,
   Device,
@@ -92,48 +91,6 @@ describe('setTemperatureInKelvin', () => {
   it('throws an error if the temperature is not an integer', () => {
     expect(() => setTemperatureInKelvin(fakeDevice, 1337.9)).toThrowError(
       'Provided temperature must be an integer',
-    );
-  });
-});
-
-describe('setTemperaturePercentage', () => {
-  it('sends the instruction to set the device temperature based on a percentage, ', () => {
-    setTemperaturePercentage(fakeLitraGlow, 100);
-
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
-      17, 255, 4, 156, 25, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
-
-    setTemperaturePercentage(fakeLitraBeam, 100);
-
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
-      17, 255, 4, 156, 25, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
-  });
-
-  it('sends the instruction to set the device temperature to the minimum temperature when set to 0%', () => {
-    setTemperaturePercentage(fakeLitraGlow, 0);
-
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
-      17, 255, 4, 156, 10, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
-
-    setTemperaturePercentage(fakeLitraBeam, 0);
-
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
-      17, 255, 4, 156, 10, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
-  });
-
-  it('throws an error if the provided percentage is less than 0', () => {
-    expect(() => setTemperaturePercentage(fakeDevice, -1)).toThrowError(
-      'Percentage must be between 0 and 100',
-    );
-  });
-
-  it('throws an error if the provided percentage is more than 100', () => {
-    expect(() => setTemperaturePercentage(fakeDevice, 101)).toThrowError(
-      'Percentage must be between 0 and 100',
     );
   });
 });

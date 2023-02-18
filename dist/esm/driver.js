@@ -110,23 +110,6 @@ export const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     device.hid.write(padRight([0x11, 0xff, 0x04, 0x9c, ...integerToBytes(temperatureInKelvin)], 20, 0x00));
 };
 /**
- * Set the temperature of your Logitech Litra device to a percentage
- * of the device's maximum temperature
- *
- * @param {Device} device The device to set the temperature of
- * @param {number} temperaturePercentage The percentage to set the temperature to
- */
-export const setTemperaturePercentage = (device, temperaturePercentage) => {
-    if (temperaturePercentage < 0 || temperaturePercentage > 100) {
-        throw 'Percentage must be between 0 and 100';
-    }
-    const minimumTemperature = getMinimumTemperatureInKelvinForDevice(device);
-    const maximumTemperature = getMaximumTemperatureInKelvinForDevice(device);
-    return setTemperatureInKelvin(device, temperaturePercentage === 0
-        ? minimumTemperature
-        : percentageWithinRange(temperaturePercentage, minimumTemperature, maximumTemperature));
-};
-/**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
  * @param {Device} device The device to set the temperature of
