@@ -3,7 +3,7 @@ import { program } from 'commander';
 import { findDevices, getNameForDevice } from '../driver';
 program
     .name('litra-devices')
-    .description('Lists Litra devices connected to your computer')
+    .description('Lists Litra devices connected to your computer. Defaults to human-readable plain text.')
     .option('--json', 'output the list of devices in structured JSON format');
 program.parse();
 const { json } = program.opts();
