@@ -136,7 +136,7 @@ if (device) {
 
 You can set the temperature of your Litra device, measured in Kelvin, using the `setTemperatureInKelvin` function.
 
-Both the Litra Glow and Litra Beam support temperatures between 2700 and 6500 Kelvin.
+Both the Litra Glow and Litra Beam support temperatures which are multiples of 100 between 2700 and 6500 Kelvin (i.e.. 2700, 2800, 2900, etc.).
 
 You can check programatically what temperature levels are supported by your device. Once you know what temperature levels are supported, you can set the temperature in Kelvin. If you try to set a value that isn't allowed by your device, an error will be thrown:
 

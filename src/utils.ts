@@ -58,3 +58,42 @@ export const percentageWithinRange = (
     Math.ceil(((percentage - 1) / (100 - 1)) * (endRange - startRange) + startRange),
   );
 };
+
+/**
+ * Finds all multiples of a given integer within a range. The returned
+ * list of multiples may or may not include the values at the start and
+ * the end of the range.
+ *
+ * For example:
+ *   - the multiples of 3 within the range 0 to 10 are 0, 3, 6, 9
+ *   - the multiples of 3 within the range 1 to 10 are 3, 6, 9
+ *   - the multiples of 5 within the range 0 to 20 are 0, 5, 10, 15, 20
+ *   - the multiples of 3 within the range 10 to 20 are 12, 15, 18
+ *
+ * @param {number} multiplesOf The integer to find multiples of
+ * @param {number} startRange The integer at the start of the range
+ * @param {number} endRange The integer at the end of the range
+ * @returns {number[]} An array of all the multiples
+ */
+export const multiplesWithinRange = (
+  multiplesOf: number,
+  startRange: number,
+  endRange: number,
+): number[] => {
+  if (!Number.isInteger(multiplesOf)) {
+    throw 'Provided value for `multiplesOf` must be an integer';
+  }
+
+  if (!Number.isInteger(startRange)) {
+    throw 'Provided value for `startRange` must be an integer';
+  }
+
+  if (!Number.isInteger(endRange)) {
+    throw 'Provided value for `endRange` must be an integer';
+  }
+
+  const inclusiveIntegersWithinRange = Array(endRange - startRange + 1)
+    .fill([])
+    .map((_, idx) => startRange + idx);
+  return inclusiveIntegersWithinRange.filter((integer) => integer % multiplesOf === 0);
+};
