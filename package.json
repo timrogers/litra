@@ -52,7 +52,6 @@
     "litra-oversight": "./dist/commonjs/cli/litra-oversight.js",
     "litra-brightness": "./dist/commonjs/cli/litra-brightness.js",
     "litra-brightness-lm": "./dist/commonjs/cli/litra-brightness-lm.js",
-    "litra-temperature": "./dist/commonjs/cli/litra-temperature-lm.js",
     "litra-temperature-k": "./dist/commonjs/cli/litra-temperature-k.js",
     "litra-identify": "./dist/commonjs/cli/litra-identify.js",
     "litra-devices": "./dist/commonjs/cli/litra-devices.js"
