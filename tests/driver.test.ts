@@ -70,27 +70,37 @@ describe('setTemperatureInKelvin', () => {
 
   it('throws an error if the temperature is below the minimum for the device', () => {
     expect(() => setTemperatureInKelvin(fakeLitraGlow, 2699)).toThrowError(
-      'Provided temperature must be between 2700 and 6500',
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
 
     expect(() => setTemperatureInKelvin(fakeLitraBeam, 2699)).toThrowError(
-      'Provided temperature must be between 2700 and 6500',
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
 
   it('throws an error if the temperature is above the maximum for the device', () => {
     expect(() => setTemperatureInKelvin(fakeLitraGlow, 6501)).toThrowError(
-      'Provided temperature must be between 2700 and 6500',
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
 
     expect(() => setTemperatureInKelvin(fakeLitraBeam, 6501)).toThrowError(
-      'Provided temperature must be between 2700 and 6500',
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
 
   it('throws an error if the temperature is not an integer', () => {
     expect(() => setTemperatureInKelvin(fakeDevice, 1337.9)).toThrowError(
       'Provided temperature must be an integer',
+    );
+  });
+
+  it('throws an error if the temperature is not a multiple of 100', () => {
+    expect(() => setTemperatureInKelvin(fakeLitraGlow, 2750)).toThrowError(
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
+    );
+
+    expect(() => setTemperatureInKelvin(fakeLitraBeam, 6499)).toThrowError(
+      'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
 });
