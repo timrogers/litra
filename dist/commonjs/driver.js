@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNameForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperaturePercentage = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
+exports.getNameForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 var DeviceType;
@@ -120,24 +120,6 @@ const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x9c, ...(0, utils_1.integerToBytes)(temperatureInKelvin)], 20, 0x00));
 };
 exports.setTemperatureInKelvin = setTemperatureInKelvin;
-/**
- * Set the temperature of your Logitech Litra device to a percentage
- * of the device's maximum temperature
- *
- * @param {Device} device The device to set the temperature of
- * @param {number} temperaturePercentage The percentage to set the temperature to
- */
-const setTemperaturePercentage = (device, temperaturePercentage) => {
-    if (temperaturePercentage < 0 || temperaturePercentage > 100) {
-        throw 'Percentage must be between 0 and 100';
-    }
-    const minimumTemperature = (0, exports.getMinimumTemperatureInKelvinForDevice)(device);
-    const maximumTemperature = (0, exports.getMaximumTemperatureInKelvinForDevice)(device);
-    return (0, exports.setTemperatureInKelvin)(device, temperaturePercentage === 0
-        ? minimumTemperature
-        : (0, utils_1.percentageWithinRange)(temperaturePercentage, minimumTemperature, maximumTemperature));
-};
-exports.setTemperaturePercentage = setTemperaturePercentage;
 /**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *

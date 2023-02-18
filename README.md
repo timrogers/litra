@@ -155,18 +155,6 @@ if (device) {
 }
 ```
 
-You can also set temperature level to a percentage with `setTemperaturePercentage` if you don't want to think in Kelvin:
-
-```js
-import { findDevice, setTemperaturePercentage } from 'litra';
-
-const device = findDevice();
-
-if (device) {
-  setTemperaturePercentage(device, 75);
-}
-```
-
 ## Using with Oversight
 
 Litra integrates with [Oversight](https://objective-see.org/products/oversight.html) to allow you to automatically turn your Litra device on or off when your webcam turns on and off. This allows you to be illuminated every time you join a video call!
