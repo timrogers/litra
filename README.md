@@ -157,10 +157,16 @@ if (device) {
 }
 ```
 
+## Using with Raycast
+
+Litra integrates with [Raycast](https://www.raycast.com/) so you can manage your Litra device from the Raycast launcher. 
+
+To use the integration, just install this package globally with `npm install -g litra`, add the "Logitech Litra" extension from the [Raycast Store](https://www.raycast.com/timrogers/logitech-litra) (source code [here](https://github.com/timrogers/raycast-logitech-litra)), find the "Manage Devices" command and then follow the instructions to configure the extension.
+
 ## Using with Oversight
 
 Litra integrates with [Oversight](https://objective-see.org/products/oversight.html) to allow you to automatically turn your Litra device on or off when your webcam turns on and off. This allows you to be illuminated every time you join a video call!
 
 To use the integration, just point Oversight at the `litra-oversight` CLI command. You can find the path of the binary on Unix machines by running `which litra-oversight` from a terminal after installing this package.
 
-If you have multiple Litra devices, they will all be targeted when `litra-oversight` runs.
+If you have multiple Litra devices, they will all be targeted when `litra-oversight` runs
