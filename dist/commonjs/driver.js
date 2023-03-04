@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNameForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
+exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 var DeviceType;
@@ -25,13 +25,10 @@ const MAXIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 250,
     [DeviceType.LitraBeam]: 400,
 };
-const MINIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
-    [DeviceType.LitraGlow]: 2700,
-    [DeviceType.LitraBeam]: 2700,
-};
-const MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
-    [DeviceType.LitraGlow]: 6500,
-    [DeviceType.LitraBeam]: 6500,
+const MULTIPLES_OF_100_BETWEEN_2700_AND_6500 = (0, utils_1.multiplesWithinRange)(100, 2700, 6500);
+const ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE = {
+    [DeviceType.LitraGlow]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
+    [DeviceType.LitraBeam]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
 };
 const NAME_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 'Logitech Litra Glow',
@@ -103,9 +100,11 @@ exports.turnOff = turnOff;
  * Sets the temperature of your Logitech Litra device
  *
  * @param {Device} device The device to set the temperature of
- * @param {number} temperatureInKelvin The temperature to set in Kelvin. Use the
- *  `getMinimumTemperatureInKelvinForDevice` and `getMaximumTemperatureInKelvinForDevice`
- *  functions to get the minimum and maximum temperature for your device.
+ * @param {number} temperatureInKelvin The temperature to set in Kelvin. Only
+ *   multiples of 100 between the device's minimum and maximum temperatures
+ *   are allowed. Use the `getMinimumTemperatureInKelvinForDevice` and
+ *   `getMaximumTemperatureInKelvinForDevice` functions to get the minimum
+ *   and maximum temperature for your device.
  */
 const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     if (!Number.isInteger(temperatureInKelvin)) {
@@ -113,9 +112,9 @@ const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     }
     const minimumTemperature = (0, exports.getMinimumTemperatureInKelvinForDevice)(device);
     const maximumTemperature = (0, exports.getMaximumTemperatureInKelvinForDevice)(device);
-    if (temperatureInKelvin < minimumTemperature ||
-        temperatureInKelvin > maximumTemperature) {
-        throw `Provided temperature must be between ${minimumTemperature} and ${maximumTemperature} for this device`;
+    const allowedTemperatures = (0, exports.getAllowedTemperaturesInKelvinForDevice)(device);
+    if (!allowedTemperatures.includes(temperatureInKelvin)) {
+        throw `Provided temperature must be a multiple of 100 between ${minimumTemperature} and ${maximumTemperature} for this device`;
     }
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x9c, ...(0, utils_1.integerToBytes)(temperatureInKelvin)], 20, 0x00));
 };
@@ -201,7 +200,7 @@ exports.getMaximumBrightnessInLumenForDevice = getMaximumBrightnessInLumenForDev
  * @returns {number} The minimum temperature in Kelvin supported by the device
  */
 const getMinimumTemperatureInKelvinForDevice = (device) => {
-    return MINIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    return ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type][0];
 };
 exports.getMinimumTemperatureInKelvinForDevice = getMinimumTemperatureInKelvinForDevice;
 /**
@@ -211,9 +210,20 @@ exports.getMinimumTemperatureInKelvinForDevice = getMinimumTemperatureInKelvinFo
  * @returns {number} The maximum temperature in Kelvin supported by the device
  */
 const getMaximumTemperatureInKelvinForDevice = (device) => {
-    return MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    const allowedTemperatures = ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    return allowedTemperatures[allowedTemperatures.length - 1];
 };
 exports.getMaximumTemperatureInKelvinForDevice = getMaximumTemperatureInKelvinForDevice;
+/**
+ * Gets all temperature values in Kelvin supported by a device
+ *
+ * @param {Device} device The device to check the allowed temperatures for
+ * @returns {number[]} The temperature values in Kelvin supported by the device
+ */
+const getAllowedTemperaturesInKelvinForDevice = (device) => {
+    return ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+};
+exports.getAllowedTemperaturesInKelvinForDevice = getAllowedTemperaturesInKelvinForDevice;
 /**
  * Gets the name of a device
  *
