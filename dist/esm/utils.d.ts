@@ -30,3 +30,20 @@ export declare const integerToBytes: (integer: number) => [number, number];
  * @returns {number} The value at the given percentage
  */
 export declare const percentageWithinRange: (percentage: number, startRange: number, endRange: number) => number;
+/**
+ * Finds all multiples of a given integer within a range. The returned
+ * list of multiples may or may not include the values at the start and
+ * the end of the range.
+ *
+ * For example:
+ *   - the multiples of 3 within the range 0 to 10 are 0, 3, 6, 9
+ *   - the multiples of 3 within the range 1 to 10 are 3, 6, 9
+ *   - the multiples of 5 within the range 0 to 20 are 0, 5, 10, 15, 20
+ *   - the multiples of 3 within the range 10 to 20 are 12, 15, 18
+ *
+ * @param {number} multiplesOf The integer to find multiples of
+ * @param {number} startRange The integer at the start of the range
+ * @param {number} endRange The integer at the end of the range
+ * @returns {number[]} An array of all the multiples
+ */
+export declare const multiplesWithinRange: (multiplesOf: number, startRange: number, endRange: number) => number[];

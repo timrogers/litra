@@ -1,5 +1,5 @@
 import HID from 'node-hid';
-import { integerToBytes, padRight, percentageWithinRange } from './utils';
+import { integerToBytes, multiplesWithinRange, padRight, percentageWithinRange, } from './utils';
 export var DeviceType;
 (function (DeviceType) {
     DeviceType["LitraGlow"] = "litra_glow";
@@ -19,13 +19,10 @@ const MAXIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 250,
     [DeviceType.LitraBeam]: 400,
 };
-const MINIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
-    [DeviceType.LitraGlow]: 2700,
-    [DeviceType.LitraBeam]: 2700,
-};
-const MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE = {
-    [DeviceType.LitraGlow]: 6500,
-    [DeviceType.LitraBeam]: 6500,
+const MULTIPLES_OF_100_BETWEEN_2700_AND_6500 = multiplesWithinRange(100, 2700, 6500);
+const ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE = {
+    [DeviceType.LitraGlow]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
+    [DeviceType.LitraBeam]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
 };
 const NAME_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 'Logitech Litra Glow',
@@ -93,9 +90,11 @@ export const turnOff = (device) => {
  * Sets the temperature of your Logitech Litra device
  *
  * @param {Device} device The device to set the temperature of
- * @param {number} temperatureInKelvin The temperature to set in Kelvin. Use the
- *  `getMinimumTemperatureInKelvinForDevice` and `getMaximumTemperatureInKelvinForDevice`
- *  functions to get the minimum and maximum temperature for your device.
+ * @param {number} temperatureInKelvin The temperature to set in Kelvin. Only
+ *   multiples of 100 between the device's minimum and maximum temperatures
+ *   are allowed. Use the `getMinimumTemperatureInKelvinForDevice` and
+ *   `getMaximumTemperatureInKelvinForDevice` functions to get the minimum
+ *   and maximum temperature for your device.
  */
 export const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     if (!Number.isInteger(temperatureInKelvin)) {
@@ -103,9 +102,9 @@ export const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     }
     const minimumTemperature = getMinimumTemperatureInKelvinForDevice(device);
     const maximumTemperature = getMaximumTemperatureInKelvinForDevice(device);
-    if (temperatureInKelvin < minimumTemperature ||
-        temperatureInKelvin > maximumTemperature) {
-        throw `Provided temperature must be between ${minimumTemperature} and ${maximumTemperature} for this device`;
+    const allowedTemperatures = getAllowedTemperaturesInKelvinForDevice(device);
+    if (!allowedTemperatures.includes(temperatureInKelvin)) {
+        throw `Provided temperature must be a multiple of 100 between ${minimumTemperature} and ${maximumTemperature} for this device`;
     }
     device.hid.write(padRight([0x11, 0xff, 0x04, 0x9c, ...integerToBytes(temperatureInKelvin)], 20, 0x00));
 };
@@ -186,7 +185,7 @@ export const getMaximumBrightnessInLumenForDevice = (device) => {
  * @returns {number} The minimum temperature in Kelvin supported by the device
  */
 export const getMinimumTemperatureInKelvinForDevice = (device) => {
-    return MINIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    return ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type][0];
 };
 /**
  * Gets the maximum temperature in Kelvin supported by a device
@@ -195,7 +194,17 @@ export const getMinimumTemperatureInKelvinForDevice = (device) => {
  * @returns {number} The maximum temperature in Kelvin supported by the device
  */
 export const getMaximumTemperatureInKelvinForDevice = (device) => {
-    return MAXIMUM_TEMPERATURE_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    const allowedTemperatures = ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type];
+    return allowedTemperatures[allowedTemperatures.length - 1];
+};
+/**
+ * Gets all temperature values in Kelvin supported by a device
+ *
+ * @param {Device} device The device to check the allowed temperatures for
+ * @returns {number[]} The temperature values in Kelvin supported by the device
+ */
+export const getAllowedTemperaturesInKelvinForDevice = (device) => {
+    return ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type];
 };
 /**
  * Gets the name of a device

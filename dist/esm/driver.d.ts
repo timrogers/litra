@@ -45,9 +45,11 @@ export declare const turnOff: (device: Device) => void;
  * Sets the temperature of your Logitech Litra device
  *
  * @param {Device} device The device to set the temperature of
- * @param {number} temperatureInKelvin The temperature to set in Kelvin. Use the
- *  `getMinimumTemperatureInKelvinForDevice` and `getMaximumTemperatureInKelvinForDevice`
- *  functions to get the minimum and maximum temperature for your device.
+ * @param {number} temperatureInKelvin The temperature to set in Kelvin. Only
+ *   multiples of 100 between the device's minimum and maximum temperatures
+ *   are allowed. Use the `getMinimumTemperatureInKelvinForDevice` and
+ *   `getMaximumTemperatureInKelvinForDevice` functions to get the minimum
+ *   and maximum temperature for your device.
  */
 export declare const setTemperatureInKelvin: (device: Device, temperatureInKelvin: number) => void;
 /**
@@ -95,6 +97,13 @@ export declare const getMinimumTemperatureInKelvinForDevice: (device: Device) =>
  * @returns {number} The maximum temperature in Kelvin supported by the device
  */
 export declare const getMaximumTemperatureInKelvinForDevice: (device: Device) => number;
+/**
+ * Gets all temperature values in Kelvin supported by a device
+ *
+ * @param {Device} device The device to check the allowed temperatures for
+ * @returns {number[]} The temperature values in Kelvin supported by the device
+ */
+export declare const getAllowedTemperaturesInKelvinForDevice: (device: Device) => number[];
 /**
  * Gets the name of a device
  *
