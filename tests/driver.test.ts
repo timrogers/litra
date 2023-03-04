@@ -1,5 +1,6 @@
 import {
   DeviceType,
+  getAllowedTemperaturesInKelvinForDevice,
   getMaximumBrightnessInLumenForDevice,
   getMinimumBrightnessInLumenForDevice,
   getMaximumTemperatureInKelvinForDevice,
@@ -220,6 +221,24 @@ describe('getMaximumTemperatureInKelvinForDevice', () => {
 
   it('returns the correct maximum temperature for a Litra Beam', () => {
     expect(getMaximumTemperatureInKelvinForDevice(fakeLitraBeam)).toEqual(6500);
+  });
+});
+
+describe('getAllowedTemperaturesInKelvinForDevice', () => {
+  it('returns the allowed temperatures for a Litra Glow', () => {
+    expect(getAllowedTemperaturesInKelvinForDevice(fakeLitraGlow)).toEqual([
+      2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000,
+      4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000, 5100, 5200, 5300, 5400,
+      5500, 5600, 5700, 5800, 5900, 6000, 6100, 6200, 6300, 6400, 6500,
+    ]);
+  });
+
+  it('returns the allowed temperatures for a Litra Beam', () => {
+    expect(getAllowedTemperaturesInKelvinForDevice(fakeLitraBeam)).toEqual([
+      2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000,
+      4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000, 5100, 5200, 5300, 5400,
+      5500, 5600, 5700, 5800, 5900, 6000, 6100, 6200, 6300, 6400, 6500,
+    ]);
   });
 });
 

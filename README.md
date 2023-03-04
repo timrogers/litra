@@ -141,15 +141,17 @@ Both the Litra Glow and Litra Beam support temperatures which are multiples of 1
 You can check programatically what temperature levels are supported by your device. Once you know what temperature levels are supported, you can set the temperature in Kelvin. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
 ```js
-import { findDevice, getMaximumTemperatureInKelvinForDevice, getMinimumTemperatureInKelvinForDevice, setTemperatureInKelvin } from 'litra';
+import { findDevice, getAllowedTemperaturesInKelvinForDevice, getMaximumTemperatureInKelvinForDevice, getMinimumTemperatureInKelvinForDevice, setTemperatureInKelvin } from 'litra';
 
 const device = findDevice();
 
 if (device) {
   const minimumTemperature = getMinimumTemperatureInKelvinForDevice(device);
   const maximumTemperature = getMaximumTemperatureInKelvinForDevice(device);
+  const allowedTemperatures = getAllowedTemperaturesInKelvinForDevice(device);
 
   console.log(`The minimum allowed temperature is ${minimumTemperature} and the maximum is ${maximumTemperature}`);
+  console.log(`The following temperature are allowed: ${allowedTemperatures.join(', ')}`);
 
   setTemperatureInKelvin(device, 6500);
 }
