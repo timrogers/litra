@@ -260,7 +260,7 @@ export const getMaximumTemperatureInKelvinForDevice = (device: Device): number =
  * @param {Device} device The device to check the allowed temperatures for
  * @returns {number[]} The temperature values in Kelvin supported by the device
  */
-const getAllowedTemperaturesInKelvinForDevice = (device: Device): number[] => {
+export const getAllowedTemperaturesInKelvinForDevice = (device: Device): number[] => {
   return ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE[device.type];
 };
 
