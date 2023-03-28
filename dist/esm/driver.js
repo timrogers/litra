@@ -174,7 +174,6 @@ export const setBrightnessInLumen = (device, brightnessInLumen) => {
 export const getBrightnessInLumen = (device) => {
     device.hid.write(padRight([0x11, 0xff, 0x04, 0x31], 20, 0x00));
     const data = device.hid.readSync();
-    console.info(data);
     return data[5];
 };
 /**

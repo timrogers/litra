@@ -1,31 +1,23 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { getTemperatureInKelvin, setTemperatureInKelvin } from '../driver';
-import { getDeviceForCLI, parseIntOption } from './utils';
+import { toggle } from '../driver';
+import { getDeviceForCLI } from './utils';
 
 program
-  .name('litra-temperature-k')
-  .description('Sets the temperature of a Litra device to a value in Kelvin')
+  .name('litra-toggle')
+  .description('Toggle a Litra device on or off')
   .option(
     '-s, --serial-number <serialNumber>',
     'serial number of the Litra device. If this is not specified and multiple devices are connected, this will default to the first identified device, which is not guaranteed to be the same every time you run this command',
-  )
-  .argument('[temperature]', 'the temperature in Kelvin, e.g. `2000`', parseIntOption);
+  );
 
 program.parse();
 const { serialNumber } = program.opts();
-const [temperature] = program.processedArgs;
 
 try {
   const device = getDeviceForCLI(serialNumber);
-
-  if (temperature) {
-    setTemperatureInKelvin(device, temperature);
-  } else {
-    console.log(getTemperatureInKelvin(device));
-  }
-
+  toggle(device);
   process.exit(0);
 } catch (e) {
   console.log(e);
