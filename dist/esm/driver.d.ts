@@ -6,6 +6,7 @@ export declare enum DeviceType {
 export interface Device {
     hid: {
         write: (values: number[] | Buffer) => number;
+        readSync(): number[];
     };
     type: DeviceType;
     serialNumber: string;
@@ -30,17 +31,30 @@ export declare const findDevice: () => Device | null;
  */
 export declare const findDevices: () => Device[];
 /**
- * Turns your Logitech Litra device on.
+ * Turns your Logitech Litra device on
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to turn on
  */
 export declare const turnOn: (device: Device) => void;
 /**
- * Turns your Logitech Litra device off.
+ * Turns your Logitech Litra device off
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to turn off
  */
 export declare const turnOff: (device: Device) => void;
+/**
+ * Toggles your Logitech Litra device on or off
+ *
+ * @param {Device} device The device to toggle on or off
+ */
+export declare const toggle: (device: Device) => void;
+/**
+ * Gets the current power state of your Logitech Litra device
+ *
+ * @param {Device} device The device to get the current power state for
+ * @returns {boolean} Current power state where true = on and false = off
+ */
+export declare const isOn: (device: Device) => boolean;
 /**
  * Sets the temperature of your Logitech Litra device
  *
@@ -53,14 +67,28 @@ export declare const turnOff: (device: Device) => void;
  */
 export declare const setTemperatureInKelvin: (device: Device, temperatureInKelvin: number) => void;
 /**
+ * Gets the temperature of your Logitech Litra device
+ *
+ * @param {Device} device The device to get the temperature for
+ * @returns {number} The current temperature in Kelvin
+ */
+export declare const getTemperatureInKelvin: (device: Device) => number;
+/**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to set the brightness of
  * @param {number} brightnessInLumen The brightness to set in Lumen. Use the
  *  `getMinimumBrightnessInLumenForDevice` and `getMaximumBrightnessInLumenForDevice`
  *  functions to get the minimum and maximum brightness for your device.
  */
 export declare const setBrightnessInLumen: (device: Device, brightnessInLumen: number) => void;
+/**
+ * Gets the current brightness of your Logitech Litra device, measured in Lumen
+ *
+ * @param {Device} device The device to get the current brightness for
+ * @returns {number} The current brightness in Lumen
+ */
+export declare const getBrightnessInLumen: (device: Device) => number;
 /**
  * Set the brightness of your Logitech Litra device to a percentage
  * of the device's maximum brightness
