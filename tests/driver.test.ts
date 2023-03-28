@@ -65,7 +65,7 @@ describe('turnOff', () => {
 });
 
 describe('toggle', () => {
-  it('sends the instruction to toggle the device on', () => {
+  it('sends the instruction to toggle the device on when it is off', () => {
     fakeDevice.hid.readSync = jest
       .fn()
       .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
