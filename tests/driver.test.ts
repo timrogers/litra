@@ -14,6 +14,7 @@ import {
   turnOff,
   turnOn,
   toggle,
+  getPowerState,
   Device,
 } from '../src/driver';
 
@@ -85,6 +86,32 @@ describe('toggle', () => {
 
     expect(fakeDevice.hid.write).toBeCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+});
+
+describe('getPowerState', () => {
+  it('sends the instruction to get the device power state when the device is off', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    expect(getPowerState(fakeDevice)).toBe(false);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the instruction to get the device power state when the device is on', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    expect(getPowerState(fakeDevice)).toBe(true);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
