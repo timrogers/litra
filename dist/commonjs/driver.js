@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.getBrightnessInLumen = exports.setBrightnessInLumen = exports.getTemperatureInKelvin = exports.setTemperatureInKelvin = exports.getPowerState = exports.toggle = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
+exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.getBrightnessInLumen = exports.setBrightnessInLumen = exports.getTemperatureInKelvin = exports.setTemperatureInKelvin = exports.isOn = exports.toggle = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 var DeviceType;
@@ -102,7 +102,7 @@ exports.turnOff = turnOff;
  * @param {Device} device The device to toggle on or off
  */
 const toggle = (device) => {
-    if ((0, exports.getPowerState)(device)) {
+    if ((0, exports.isOn)(device)) {
         (0, exports.turnOff)(device);
     }
     else {
@@ -116,12 +116,12 @@ exports.toggle = toggle;
  * @param {Device} device The device to get the current power state for
  * @returns {boolean} Current power state where true = on and false = off
  */
-const getPowerState = (device) => {
+const isOn = (device) => {
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x01], 20, 0x00));
     const data = device.hid.readSync();
     return data[4] === 1;
 };
-exports.getPowerState = getPowerState;
+exports.isOn = isOn;
 /**
  * Sets the temperature of your Logitech Litra device
  *

@@ -86,10 +86,10 @@ if (devices.length > 0) {
 
 Find your device with `findDevice`, and then use the simple `turnOn` and `turnOff` functions. They just take one parameter: the device.
 
-You can also use the `getPowerState` function to check if your device is on/off.
+You can also use the `isOn` function to check if your device is on/off.
 
 ```js
-import { findDevice, turnOff, turnOn, getPowerState } from 'litra';
+import { findDevice, turnOff, turnOn, isOn } from 'litra';
 
 const device = findDevice();
 
@@ -97,7 +97,7 @@ const device = findDevice();
 if (device) {
   turnOn(device);
 
-  if (getPowerState(device)) {
+  if (isOn(device)) {
     console.log(
       `Your device is now on!`,
     );
@@ -106,7 +106,7 @@ if (device) {
   setTimeout(() => {
     turnOff(device)
 
-    if (!getPowerState(device)) {
+    if (!isOn(device)) {
       console.log(
         `Your device is now off!`,
       );

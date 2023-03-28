@@ -54,7 +54,7 @@ export declare const toggle: (device: Device) => void;
  * @param {Device} device The device to get the current power state for
  * @returns {boolean} Current power state where true = on and false = off
  */
-export declare const getPowerState: (device: Device) => boolean;
+export declare const isOn: (device: Device) => boolean;
 /**
  * Sets the temperature of your Logitech Litra device
  *

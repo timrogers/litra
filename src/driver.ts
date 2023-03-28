@@ -123,7 +123,7 @@ export const turnOff = (device: Device): void => {
  * @param {Device} device The device to toggle on or off
  */
 export const toggle = (device: Device): void => {
-  if (getPowerState(device)) {
+  if (isOn(device)) {
     turnOff(device);
   } else {
     turnOn(device);
@@ -136,7 +136,7 @@ export const toggle = (device: Device): void => {
  * @param {Device} device The device to get the current power state for
  * @returns {boolean} Current power state where true = on and false = off
  */
-export const getPowerState = (device: Device): boolean => {
+export const isOn = (device: Device): boolean => {
   device.hid.write(padRight([0x11, 0xff, 0x04, 0x01], 20, 0x00));
 
   const data = device.hid.readSync();
