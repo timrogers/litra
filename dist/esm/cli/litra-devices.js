@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { findDevices, getBrightnessInLumen, getNameForDevice, getTemperatureInKelvin, isOn } from '../driver';
+import { findDevices, getBrightnessInLumen, getNameForDevice, getTemperatureInKelvin, isOn, } from '../driver';
 program
     .name('litra-devices')
-    .description('Lists Litra devices connected to your computer. Defaults to human-readable plain text.')
-    .option('--json', 'output the list of devices in structured JSON format');
+    .description('Lists Litra devices connected to your computer. Defaults to human-readable plain text. The structure and content of the plain text output may change in future versions. If you need a machine-readable output with consistency guarantees, use the `--json` option.')
+    .option('--json', 'output the list of devices in structured JSON format. New attributes may be added to the JSON output in future versions. Existing attributes will only be removed or changed in a backwards-incompatible way in major versions.');
 program.parse();
 const { json } = program.opts();
 const devices = findDevices();
