@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { findDevices, getNameForDevice } from '../driver';
+import {
+  findDevices,
+  getBrightnessInLumen,
+  getNameForDevice,
+  getTemperatureInKelvin,
+  isOn,
+} from '../driver';
 
 program
   .name('litra-devices')
@@ -21,13 +27,22 @@ if (json) {
       devices.map((device) => ({
         name: getNameForDevice(device),
         serial_number: device.serialNumber,
+        is_on: isOn(device),
+        brightness_in_lumen: getBrightnessInLumen(device),
+        temperature_in_kelvin: getTemperatureInKelvin(device),
       })),
     ),
   );
 } else {
   if (devices.length) {
     for (const device of devices) {
-      console.log(`- ${getNameForDevice(device)} (${device.serialNumber})`);
+      console.log(
+        `- ${getNameForDevice(device)} (${device.serialNumber}): ${
+          isOn(device) ? 'On 💡' : 'Off 🌑'
+        }`,
+      );
+      console.log(`  - Brightness: ${getBrightnessInLumen(device)} lm`);
+      console.log(`  - Temperature: ${getTemperatureInKelvin(device)} K`);
     }
   } else {
     console.log('No devices found');

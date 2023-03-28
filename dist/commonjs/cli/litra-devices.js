@@ -14,12 +14,17 @@ if (json) {
     console.log(JSON.stringify(devices.map((device) => ({
         name: (0, driver_1.getNameForDevice)(device),
         serial_number: device.serialNumber,
+        is_on: (0, driver_1.isOn)(device),
+        brightness_in_lumen: (0, driver_1.getBrightnessInLumen)(device),
+        temperature_in_kelvin: (0, driver_1.getTemperatureInKelvin)(device),
     }))));
 }
 else {
     if (devices.length) {
         for (const device of devices) {
-            console.log(`- ${(0, driver_1.getNameForDevice)(device)} (${device.serialNumber})`);
+            console.log(`- ${(0, driver_1.getNameForDevice)(device)} (${device.serialNumber}): ${(0, driver_1.isOn)(device) ? 'On 💡' : 'Off 🌑'}`);
+            console.log(`  - Brightness: ${(0, driver_1.getBrightnessInLumen)(device)} lm`);
+            console.log(`  - Temperature: ${(0, driver_1.getTemperatureInKelvin)(device)} K`);
         }
     }
     else {
