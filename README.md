@@ -5,7 +5,7 @@ This JavaScript driver allows you to control [Logitech Litra Glow](https://www.l
 With this driver, you can:
 
 - Turn your light on and off
-- Get the current power state of your light
+- Check if the light is on or off
 - Set and get the brightness of your light
 - Set and get the temperature of your light
 
@@ -86,7 +86,7 @@ if (devices.length > 0) {
 
 Find your device with `findDevice`, and then use the simple `turnOn` and `turnOff` functions. They just take one parameter: the device.
 
-You can also use the `getPowerState` function to tell if your device is on/off.
+You can also use the `getPowerState` function to check if your device is on/off.
 
 ```js
 import { findDevice, turnOff, turnOn, getPowerState } from 'litra';
@@ -111,18 +111,18 @@ if (device) {
         `Your device is now off!`,
       );
     }
-  },5000));
+  }, 5000));
 }
 ```
 
-Alternatively, you can use the `toggle` function to switch your device on if it's off and vice-vera.
+Alternatively, you can use the `toggle` function to switch your device on if it's off and vice-versa.
 
 ```js
 import { findDevice, toggle } from 'litra';
 
 const device = findDevice();
 
-// Turn your light on if it's currently off
+// Turn your light on if it's currently off, and vice-versa
 toggle();
 ```
 
