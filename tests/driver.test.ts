@@ -7,10 +7,13 @@ import {
   getMinimumTemperatureInKelvinForDevice,
   getNameForDevice,
   setBrightnessInLumen,
+  getBrightnessInLumen,
   setBrightnessPercentage,
   setTemperatureInKelvin,
+  getTemperatureInKelvin,
   turnOff,
   turnOn,
+  toggle,
   Device,
 } from '../src/driver';
 
@@ -23,19 +26,19 @@ let fakeLitraBeam: Device;
 beforeEach(() => {
   fakeDevice = {
     type: DeviceType.LitraGlow,
-    hid: { write: jest.fn() },
+    hid: { write: jest.fn(), readSync: jest.fn() },
     serialNumber: FAKE_SERIAL_NUMBER,
   };
 
   fakeLitraGlow = {
     type: DeviceType.LitraGlow,
-    hid: { write: jest.fn() },
+    hid: { write: jest.fn(), readSync: jest.fn() },
     serialNumber: FAKE_SERIAL_NUMBER,
   };
 
   fakeLitraBeam = {
     type: DeviceType.LitraBeam,
-    hid: { write: jest.fn() },
+    hid: { write: jest.fn(), readSync: jest.fn() },
     serialNumber: FAKE_SERIAL_NUMBER,
   };
 });
@@ -53,6 +56,32 @@ describe('turnOn', () => {
 describe('turnOff', () => {
   it('sends the instruction to turn the device off', () => {
     turnOff(fakeDevice);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+});
+
+describe('toggle', () => {
+  it('sends the instruction to toggle the device on', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeDevice);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the instruction to toggle the device off', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeDevice);
 
     expect(fakeDevice.hid.write).toBeCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -106,6 +135,22 @@ describe('setTemperatureInKelvin', () => {
   });
 });
 
+describe('getTemperatureInKelvin', () => {
+  it('sends the instruction to get the device temperature', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 129, 19, 136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getTemperatureInKelvin(fakeDevice)).toEqual(5000);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+});
+
 describe('setBrightnessInLumen', () => {
   it('sends the instruction to set the device brightness', () => {
     setBrightnessInLumen(fakeDevice, 20);
@@ -139,6 +184,22 @@ describe('setBrightnessInLumen', () => {
     expect(() => setBrightnessInLumen(fakeDevice, 1337.9)).toThrowError(
       'Provided brightness must be an integer',
     );
+  });
+});
+
+describe('getBrightnessInLumen', () => {
+  it('sends the instruction to get the device brightness', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 49, 0, 216, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getBrightnessInLumen(fakeDevice)).toEqual(216);
+
+    expect(fakeDevice.hid.write).toBeCalledWith([
+      17, 255, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
   });
 });
 

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.setBrightnessInLumen = exports.setTemperatureInKelvin = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
+exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.getBrightnessInLumen = exports.setBrightnessInLumen = exports.getTemperatureInKelvin = exports.setTemperatureInKelvin = exports.getPowerState = exports.toggle = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 var DeviceType;
@@ -79,23 +79,49 @@ const findDevices = () => {
 };
 exports.findDevices = findDevices;
 /**
- * Turns your Logitech Litra device on.
+ * Turns your Logitech Litra device on
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to turn on
  */
 const turnOn = (device) => {
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x01], 20, 0x00));
 };
 exports.turnOn = turnOn;
 /**
- * Turns your Logitech Litra device off.
+ * Turns your Logitech Litra device off
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to turn off
  */
 const turnOff = (device) => {
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x00], 20, 0x00));
 };
 exports.turnOff = turnOff;
+/**
+ * Toggles your Logitech Litra device on or off
+ *
+ * @param {Device} device The device to toggle on or off
+ */
+const toggle = (device) => {
+    if ((0, exports.getPowerState)(device)) {
+        (0, exports.turnOff)(device);
+    }
+    else {
+        (0, exports.turnOn)(device);
+    }
+};
+exports.toggle = toggle;
+/**
+ * Gets the current power state of your Logitech Litra device
+ *
+ * @param {Device} device The device to get the current power state for
+ * @returns {boolean} Current power state where true = on and false = off
+ */
+const getPowerState = (device) => {
+    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x01], 20, 0x00));
+    const data = device.hid.readSync();
+    return data[4] === 1;
+};
+exports.getPowerState = getPowerState;
 /**
  * Sets the temperature of your Logitech Litra device
  *
@@ -120,9 +146,24 @@ const setTemperatureInKelvin = (device, temperatureInKelvin) => {
 };
 exports.setTemperatureInKelvin = setTemperatureInKelvin;
 /**
+ * Gets the temperature of your Logitech Litra device
+ *
+ * @param {Device} device The device to get the temperature for
+ * @returns {number} The current temperature in Kelvin
+ */
+const getTemperatureInKelvin = (device) => {
+    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x81], 20, 0x00));
+    const data = device.hid.readSync();
+    // data[4] is the multiple of 256
+    // data[5] is the remainder of 256
+    // together they come out to the temp in K
+    return data[4] * 256 + data[5];
+};
+exports.getTemperatureInKelvin = getTemperatureInKelvin;
+/**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
- * @param {Device} device The device to set the temperature of
+ * @param {Device} device The device to set the brightness of
  * @param {number} brightnessInLumen The brightness to set in Lumen. Use the
  *  `getMinimumBrightnessInLumenForDevice` and `getMaximumBrightnessInLumenForDevice`
  *  functions to get the minimum and maximum brightness for your device.
@@ -139,6 +180,19 @@ const setBrightnessInLumen = (device, brightnessInLumen) => {
     device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x4c, 0x00, brightnessInLumen], 20, 0x00));
 };
 exports.setBrightnessInLumen = setBrightnessInLumen;
+/**
+ * Gets the current brightness of your Logitech Litra device, measured in Lumen
+ *
+ * @param {Device} device The device to get the current brightness for
+ * @returns {number} The current brightness in Lumen
+ */
+const getBrightnessInLumen = (device) => {
+    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x31], 20, 0x00));
+    const data = device.hid.readSync();
+    console.info(data);
+    return data[5];
+};
+exports.getBrightnessInLumen = getBrightnessInLumen;
 /**
  * Set the brightness of your Logitech Litra device to a percentage
  * of the device's maximum brightness
