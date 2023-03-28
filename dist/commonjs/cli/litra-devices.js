@@ -6,9 +6,15 @@ const driver_1 = require("../driver");
 commander_1.program
     .name('litra-devices')
     .description('Lists Litra devices connected to your computer. Defaults to human-readable plain text. The structure and content of the plain text output may change in future versions. If you need a machine-readable output with consistency guarantees, use the `--json` option.')
-    .option('--json', 'output the list of devices in structured JSON format. New attributes may be added to the JSON output in future versions. Existing attributes will only be removed or changed in a backwards-incompatible way in major versions.');
+    .option('--json', 'output the list of devices in structured JSON format. New attributes may be added to the JSON output in future versions. Existing attributes will only be removed or changed in a backwards-incompatible way in major versions.')
+    .option('--version', 'output the current version of the `litra` package, rather than a list of devices.');
 commander_1.program.parse();
-const { json } = commander_1.program.opts();
+const { json, version } = commander_1.program.opts();
+if (version) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    console.log(require('../../../package.json').version);
+    process.exit(0);
+}
 const devices = (0, driver_1.findDevices)();
 if (json) {
     console.log(JSON.stringify(devices.map((device) => ({
