@@ -4,13 +4,14 @@ This JavaScript driver allows you to control [Logitech Litra Glow](https://www.l
 
 With this driver, you can:
 
-* Turn your light on and off
-* Set the brightness of your light
-* Set the temperature of your light
+- Turn your light on and off
+- Get the current power state of your light
+- Set and get the brightness of your light
+- Set and get the temperature of your light
 
 ## Compatibility
 
-This library is only tested on macOS Monterey (12.5). It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
+This library is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
 
 ## Using as a command line tool
 
@@ -18,17 +19,17 @@ Make sure you have Node.js available on your machine, and then install the packa
 
 With the package installed:
 
-* Use the `litra-on` and `litra-off` commands to turn your light on and off.
-* Use the `litra-brightness` command to set your Litra's brightness to a percentage of its maximum (e.g. `litra-brightness 90`).
-* Use the `litra-brightness-lm` command to set your Litra's brightness to a value in Lumen (e.g. `litra-brightness 250`).
-* Use the `litra-temperature-k` command to set your Litra's temperature to a value in Kelvin (e.g. `litra-temperature-k 6500`).
+- Use the `litra-on` and `litra-off` commands to turn your light on and off.
+- Use the `litra-brightness` command to set your Litra's brightness to a percentage of its maximum (e.g. `litra-brightness 90`).
+- Use the `litra-brightness-lm` command to set your Litra's brightness to a value in Lumen (e.g. `litra-brightness 250`).
+- Use the `litra-temperature-k` command to set your Litra's temperature to a value in Kelvin (e.g. `litra-temperature-k 6500`).
 
 All of the these commands support a `--serial-number`/`-s` argument to specify the serial number of the device you want to target. If you only have one Litra device, you can omit this argument. If you have multiple devices, we recommend specifying it. If it isn't specified, the "first" device will be picked, but this isn't guaranteed to be stable between command runs.
 
 You can also use:
 
-* `litra-devices` to list Litra devices connected to your machine, including in JSON format with `--json`
-* `litra-identify` to interactively identify the serial numbers of your Litra devices, if you have multiple connected
+- `litra-devices` to list Litra devices connected to your machine, including in JSON format with `--json`
+- `litra-identify` to interactively identify the serial numbers of your Litra devices, if you have multiple connected
 
 Each CLI command can also be called with `--help` for more detailed documentation.
 
@@ -46,7 +47,7 @@ npm install --save litra
 
 #### Checking if a Litra device is plugged in
 
-The `findDevice` function checks your computer to find whether a Logitech Litra device is plugged in. 
+The `findDevice` function checks your computer to find whether a Logitech Litra device is plugged in.
 
 If it is, it returns an object representing the device, which you can pass into other function. If it isn't, it returns `null`.
 
@@ -64,7 +65,7 @@ if (device) {
 }
 ```
 
-If you're a *huge* fan of Litra devices and you have multiple plugged in at the same time, use `findDevices` instead:
+If you're a _huge_ fan of Litra devices and you have multiple plugged in at the same time, use `findDevices` instead:
 
 ```js
 const devices = findDevices();
@@ -85,28 +86,63 @@ if (devices.length > 0) {
 
 Find your device with `findDevice`, and then use the simple `turnOn` and `turnOff` functions. They just take one parameter: the device.
 
+You can also use the `getPowerState` function to tell if your device is on/off.
+
 ```js
-import { findDevice, turnOff, turnOn } from 'litra';
+import { findDevice, turnOff, turnOn, getPowerState } from 'litra';
 
 const device = findDevice();
 
 // Turn your light on, then turn it off again after 5 seconds
 if (device) {
   turnOn(device);
-  setTimeout(() => turnOff(device), 5000));
+
+  if (getPowerState(device)) {
+    console.log(
+      `Your device is now on!`,
+    );
+  }
+
+  setTimeout(() => {
+    turnOff(device)
+
+    if (!getPowerState(device)) {
+      console.log(
+        `Your device is now off!`,
+      );
+    }
+  },5000));
 }
 ```
 
-#### Setting the brightness of your Litra device
+Alternatively, you can use the `toggle` function to switch your device on if it's off and vice-vera.
 
-You can set the brightness of your Litra device, measured in Lumen, using the `setBrightnessInLumen` function. 
+```js
+import { findDevice, toggle } from 'litra';
+
+const device = findDevice();
+
+// Turn your light on if it's currently off
+toggle();
+```
+
+#### Setting and getting the brightness of your Litra device
+
+You can set the brightness of your Litra device, measured in Lumen, using the `setBrightnessInLumen` function.
+
+To get the current brightness of your device, use the `getBrightnessInLumen` function.
 
 The Litra Glow supports brightness between 20 and 250 Lumen. The Litra Beam supports brightness between 20 and 400 Lumen.
 
 You can programatically check what brightness levels are supported by your device. Once you know what brightness levels are supported, you can set the brightness in Lumen. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
 ```js
-import { findDevice, getMaximumBrightnessInLumenForDevice, getMinimumBrightnessInLumenForDevice, setBrightnessInLumen } from 'litra';
+import {
+  findDevice,
+  getMaximumBrightnessInLumenForDevice,
+  getMinimumBrightnessInLumenForDevice,
+  setBrightnessInLumen,
+} from 'litra';
 
 const device = findDevice();
 
@@ -114,9 +150,14 @@ if (device) {
   const minimumBrightness = getMinimumBrightnessInLumenForDevice(device);
   const maximumBrightness = getMaximumBrightnessInLumenForDevice(device);
 
-  console.log(`The minimum allowed brightness is ${minimumBrightness} and the maximum is ${maximumBrightness}`);
+  console.log(
+    `The minimum allowed brightness is ${minimumBrightness} and the maximum is ${maximumBrightness}`,
+  );
 
   setBrightnessInLumen(device, 150);
+
+  // Will return 150
+  getBrightnessInLumen(device);
 }
 ```
 
@@ -136,12 +177,20 @@ if (device) {
 
 You can set the temperature of your Litra device, measured in Kelvin, using the `setTemperatureInKelvin` function.
 
+The `getTemperatureInKelvin` function can be used to get the current temperature your device is set to.
+
 Both the Litra Glow and Litra Beam support temperatures which are multiples of 100 between 2700 and 6500 Kelvin (i.e.. 2700, 2800, 2900, etc.).
 
 You can check programatically what temperature levels are supported by your device. Once you know what temperature levels are supported, you can set the temperature in Kelvin. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
 ```js
-import { findDevice, getAllowedTemperaturesInKelvinForDevice, getMaximumTemperatureInKelvinForDevice, getMinimumTemperatureInKelvinForDevice, setTemperatureInKelvin } from 'litra';
+import {
+  findDevice,
+  getAllowedTemperaturesInKelvinForDevice,
+  getMaximumTemperatureInKelvinForDevice,
+  getMinimumTemperatureInKelvinForDevice,
+  setTemperatureInKelvin,
+} from 'litra';
 
 const device = findDevice();
 
@@ -150,16 +199,21 @@ if (device) {
   const maximumTemperature = getMaximumTemperatureInKelvinForDevice(device);
   const allowedTemperatures = getAllowedTemperaturesInKelvinForDevice(device);
 
-  console.log(`The minimum allowed temperature is ${minimumTemperature} and the maximum is ${maximumTemperature}`);
+  console.log(
+    `The minimum allowed temperature is ${minimumTemperature} and the maximum is ${maximumTemperature}`,
+  );
   console.log(`The following temperature are allowed: ${allowedTemperatures.join(', ')}`);
 
   setTemperatureInKelvin(device, 6500);
+
+  // Should return 6500
+  getTemeratureInKelvin(device);
 }
 ```
 
 ## Using with Raycast
 
-Litra integrates with [Raycast](https://www.raycast.com/) so you can manage your Litra device from the Raycast launcher. 
+Litra integrates with [Raycast](https://www.raycast.com/) so you can manage your Litra device from the Raycast launcher.
 
 To use the integration, just install this package globally with `npm install -g litra`, add the "Logitech Litra" extension from the [Raycast Store](https://www.raycast.com/timrogers/logitech-litra) (source code [here](https://github.com/timrogers/raycast-logitech-litra)), find the "Manage Devices" command and then follow the instructions to configure the extension.
 
