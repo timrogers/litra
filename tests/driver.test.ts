@@ -241,7 +241,7 @@ describe('setBrightnessPercentage', () => {
     setBrightnessPercentage(fakeLitraBeam, 100);
 
     expect(fakeLitraBeam.hid.write).toBeCalledWith([
-      17, 255, 4, 76, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      17, 255, 4, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
