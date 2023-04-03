@@ -177,7 +177,7 @@ const setBrightnessInLumen = (device, brightnessInLumen) => {
     if (brightnessInLumen < minimumBrightness || brightnessInLumen > maximumBrightness) {
         throw `Provided brightness must be between ${minimumBrightness} and ${maximumBrightness} for this device`;
     }
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x4c, 0x00, brightnessInLumen], 20, 0x00));
+    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x4c, ...(0, utils_1.integerToBytes)(brightnessInLumen)], 20, 0x00));
 };
 exports.setBrightnessInLumen = setBrightnessInLumen;
 /**
