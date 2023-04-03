@@ -212,7 +212,9 @@ export const setBrightnessInLumen = (device: Device, brightnessInLumen: number):
     throw `Provided brightness must be between ${minimumBrightness} and ${maximumBrightness} for this device`;
   }
 
-  device.hid.write(padRight([0x11, 0xff, 0x04, 0x4c, 0x00, brightnessInLumen], 20, 0x00));
+  device.hid.write(
+    padRight([0x11, 0xff, 0x04, 0x4c, ...integerToBytes(brightnessInLumen)], 20, 0x00),
+  );
 };
 
 /**
