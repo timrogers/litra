@@ -1,7 +1,7 @@
 {
   "name": "litra",
   "version": "0.0.0-development",
-  "description": "A driver for controlling Logitech Litra devices, including the Logitech Litra Glow and Logitech Litra Beam, from a CLI or your JavaScript code",
+  "description": "A driver for controlling Logitech Litra devices connected via USB, including the Logitech Litra Glow and Logitech Litra Beam, from a CLI or your JavaScript code",
   "main": "./dist/commonjs/driver.js",
   "module": "./dist/esm/driver.js",
   "homepage": "https://github.com/timrogers/litra",
