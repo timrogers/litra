@@ -14,7 +14,7 @@ With this driver, you can:
 This library:
 
 * only works with Litra devices connected via USB. Logitech Litra Beam devices connected via Bluetooth are not supported.
-* is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
+* is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your mileage may vary 🙏
 
 ## Using as a command line tool
 
