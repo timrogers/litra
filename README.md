@@ -1,6 +1,6 @@
 # Logitech Litra
 
-This JavaScript driver allows you to control [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html) and [Logitech Litra Beam](https://www.logitech.com/en-gb/products/lighting/litra-beam.946-000007.html) lights using a CLI and from your JavaScript code.
+This JavaScript driver allows you to control USB-connected [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html) and [Logitech Litra Beam](https://www.logitech.com/en-gb/products/lighting/litra-beam.946-000007.html) lights using a CLI and from your JavaScript code.
 
 With this driver, you can:
 
@@ -11,7 +11,10 @@ With this driver, you can:
 
 ## Compatibility
 
-This library is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
+This library:
+
+* only works with Litra devices connected via USB. Logitech Litra Beam devices connected via Bluetooth are not supported.
+* is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your milage may vary 🙏
 
 ## Using as a command line tool
 
