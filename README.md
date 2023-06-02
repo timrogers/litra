@@ -214,7 +214,7 @@ if (device) {
 }
 ```
 
-## Using with Raycast
+## Using with Raycast
 
 Litra integrates with [Raycast](https://www.raycast.com/) so you can manage your Litra device from the Raycast launcher.
 
