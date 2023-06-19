@@ -19,7 +19,7 @@
   "author": "Tim Rogers <me@timrogers.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "commander": "^10.0.0",
+    "commander": "^11.0.0",
     "node-hid": "^2.1.1"
   },
   "devDependencies": {
