@@ -10,11 +10,12 @@ var DeviceType;
 (function (DeviceType) {
     DeviceType["LitraGlow"] = "litra_glow";
     DeviceType["LitraBeam"] = "litra_beam";
-})(DeviceType = exports.DeviceType || (exports.DeviceType = {}));
+})(DeviceType || (exports.DeviceType = DeviceType = {}));
 const VENDOR_ID = 0x046d;
 const PRODUCT_IDS = [
     0xc900,
-    0xc901, // Litra Beam
+    0xc901,
+    0xb901, // Litra Beam
 ];
 const USAGE_PAGE = 0xff43;
 const MINIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
@@ -218,9 +219,10 @@ exports.setBrightnessPercentage = setBrightnessPercentage;
  */
 const getDeviceTypeByProductId = (productId) => {
     switch (productId) {
-        case 0xc900:
+        case PRODUCT_IDS[0]:
             return DeviceType.LitraGlow;
-        case 0xc901:
+        case PRODUCT_IDS[1]:
+        case PRODUCT_IDS[2]:
             return DeviceType.LitraBeam;
         default:
             throw 'Unknown device type';

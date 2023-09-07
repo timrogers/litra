@@ -16,6 +16,7 @@ const VENDOR_ID = 0x046d;
 const PRODUCT_IDS = [
   0xc900, // Litra Glow
   0xc901, // Litra Beam
+  0xb901, // Litra Beam
 ];
 const USAGE_PAGE = 0xff43;
 
@@ -265,9 +266,10 @@ export const setBrightnessPercentage = (
  */
 const getDeviceTypeByProductId = (productId: number): DeviceType => {
   switch (productId) {
-    case 0xc900:
+    case PRODUCT_IDS[0]:
       return DeviceType.LitraGlow;
-    case 0xc901:
+    case PRODUCT_IDS[1]:
+    case PRODUCT_IDS[2]:
       return DeviceType.LitraBeam;
     default:
       throw 'Unknown device type';
