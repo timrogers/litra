@@ -16,7 +16,8 @@ program
   .option(
     '-process <process>',
     'the PID of the process that triggered the event (ignored)',
-  );
+  )
+  .option('-activeCount <activeCount>', 'the number of devices still active (ignored)');
 
 program.parse();
 // Commander isn't really designed to support these single dash arguments. When arguments are specified this way,
