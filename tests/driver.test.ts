@@ -23,6 +23,7 @@ const FAKE_SERIAL_NUMBER = 'fake_serial_number';
 let fakeDevice: Device;
 let fakeLitraGlow: Device;
 let fakeLitraBeam: Device;
+let fakeLitraBeamLx: Device;
 
 beforeEach(() => {
   fakeDevice = {
@@ -42,86 +43,216 @@ beforeEach(() => {
     hid: { write: jest.fn(), readSync: jest.fn() },
     serialNumber: FAKE_SERIAL_NUMBER,
   };
+
+  fakeLitraBeamLx = {
+    type: DeviceType.LitraBeamLX,
+    hid: { write: jest.fn(), readSync: jest.fn() },
+    serialNumber: FAKE_SERIAL_NUMBER,
+  };
 });
 
 describe('turnOn', () => {
-  it('sends the instruction to turn the device on', () => {
-    turnOn(fakeDevice);
+  it('sends the correct instruction to turn the device on for a Litra Glow', () => {
+    turnOn(fakeLitraGlow);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the correct instruction to turn the device on for a Litra Beam', () => {
+    turnOn(fakeLitraBeam);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the correct instruction to turn the device on for a Litra Beam LX', () => {
+    turnOn(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
 
 describe('turnOff', () => {
-  it('sends the instruction to turn the device off', () => {
-    turnOff(fakeDevice);
+  it('sends the correct instruction to turn the device off for a Litra Glow', () => {
+    turnOff(fakeLitraGlow);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the correct instruction to turn the device off for a Litra Beam', () => {
+    turnOff(fakeLitraBeam);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the correct instruction to turn the device off for a Litra Beam LX', () => {
+    turnOff(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
 
 describe('toggle', () => {
-  it('sends the instruction to toggle the device on when it is off', () => {
-    fakeDevice.hid.readSync = jest
+  it('sends the right instruction to turn a Litra Glow on when it is off', () => {
+    fakeLitraGlow.hid.readSync = jest
       .fn()
       .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    toggle(fakeDevice);
+    toggle(fakeLitraGlow);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
-  it('sends the instruction to toggle the device off when it is on', () => {
-    fakeDevice.hid.readSync = jest
+  it('sends the right instruction to turn a Litra Beam on when it is off', () => {
+    fakeLitraBeam.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeLitraBeam);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to turn a Litra Beam LX on when it is off', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to turn the Litra Glow off when it is on', () => {
+    fakeLitraGlow.hid.readSync = jest
       .fn()
       .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    toggle(fakeDevice);
+    toggle(fakeLitraGlow);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to turn the Litra Beam off when it is on', () => {
+    fakeLitraBeam.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeLitraBeam);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to turn the Litra Beam LX off when it is on', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    toggle(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
 
 describe('isOn', () => {
-  it('sends the instruction to get the device power state when the device is off', () => {
-    fakeDevice.hid.readSync = jest
+  it('sends the right instruction to get the device power state for a Litra Glow', () => {
+    fakeLitraGlow.hid.readSync = jest
       .fn()
       .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    expect(isOn(fakeDevice)).toBe(false);
+    isOn(fakeLitraGlow);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
-  it('sends the instruction to get the device power state when the device is on', () => {
+  it('sends the right instruction to get the device power state for a Litra Beam', () => {
+    fakeLitraBeam.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    isOn(fakeLitraBeam);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to get the device power state for a Litra Beam LX', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    isOn(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('returns true when the device is on', () => {
     fakeDevice.hid.readSync = jest
       .fn()
       .mockReturnValue([17, 255, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
     expect(isOn(fakeDevice)).toBe(true);
+  });
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
-      17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
+  it('returns false when the device is off', () => {
+    fakeDevice.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    expect(isOn(fakeDevice)).toBe(false);
   });
 });
 
 describe('setTemperatureInKelvin', () => {
-  it('sends the instruction to set the device temperature', () => {
-    setTemperatureInKelvin(fakeDevice, 6300);
+  it('sends the right instruction to set the temperature for a Litra Glow', () => {
+    setTemperatureInKelvin(fakeLitraGlow, 6300);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to set the temperature for a Litra Beam', () => {
+    setTemperatureInKelvin(fakeLitraBeam, 6300);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to set the temperature for a Litra Beam LX', () => {
+    setTemperatureInKelvin(fakeLitraBeamLx, 6300);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
@@ -163,27 +294,71 @@ describe('setTemperatureInKelvin', () => {
 });
 
 describe('getTemperatureInKelvin', () => {
-  it('sends the instruction to get the device temperature', () => {
-    fakeDevice.hid.readSync = jest
+  it('sends the right instruction to get the temperature for a Litra Glow', () => {
+    fakeLitraGlow.hid.readSync = jest
       .fn()
       .mockReturnValue([
         17, 255, 4, 129, 19, 136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       ]);
 
-    expect(getTemperatureInKelvin(fakeDevice)).toEqual(5000);
+    expect(getTemperatureInKelvin(fakeLitraGlow)).toEqual(5000);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to get the temperature for a Litra Beam', () => {
+    fakeLitraBeam.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 129, 19, 136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getTemperatureInKelvin(fakeLitraBeam)).toEqual(5000);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to get the temperature for a Litra Beam LX', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 129, 19, 136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getTemperatureInKelvin(fakeLitraBeamLx)).toEqual(5000);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
 
 describe('setBrightnessInLumen', () => {
-  it('sends the instruction to set the device brightness', () => {
-    setBrightnessInLumen(fakeDevice, 20);
+  it('sends the right instruction to set the brightness of a Litra Glow', () => {
+    setBrightnessInLumen(fakeLitraGlow, 20);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 76, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to set the brightness of a Litra Beam', () => {
+    setBrightnessInLumen(fakeLitraBeam, 30);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to set the brightness of a Litra Beam LX', () => {
+    setBrightnessInLumen(fakeLitraBeamLx, 30);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
@@ -215,29 +390,51 @@ describe('setBrightnessInLumen', () => {
 });
 
 describe('getBrightnessInLumen', () => {
-  it('sends the instruction to get the device brightness', () => {
-    fakeDevice.hid.readSync = jest
+  it('sends the right instruction to get the brightness of a Litra Glow', () => {
+    fakeLitraGlow.hid.readSync = jest
       .fn()
       .mockReturnValue([
         17, 255, 4, 49, 0, 216, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       ]);
 
-    expect(getBrightnessInLumen(fakeDevice)).toEqual(216);
+    expect(getBrightnessInLumen(fakeLitraGlow)).toEqual(216);
 
-    expect(fakeDevice.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to get the brightness of a Litra Beam', () => {
+    fakeLitraBeam.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 49, 0, 216, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getBrightnessInLumen(fakeLitraBeam)).toEqual(216);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('sends the right instruction to get the brightness of a Litra Beam LX', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([
+        17, 255, 4, 49, 0, 216, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ]);
+
+    expect(getBrightnessInLumen(fakeLitraBeamLx)).toEqual(216);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 });
 
 describe('setBrightnessPercentage', () => {
-  it('sends the instruction to set the device brightness based on a percentage', () => {
-    setBrightnessPercentage(fakeLitraGlow, 100);
-
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
-      17, 255, 4, 76, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ]);
-
+  it("sends the right instruction to set a Litra Glow's brightness based on a percentage", () => {
     setBrightnessPercentage(fakeLitraBeam, 100);
 
     expect(fakeLitraBeam.hid.write).toBeCalledWith([
@@ -245,17 +442,43 @@ describe('setBrightnessPercentage', () => {
     ]);
   });
 
-  it('sends the instruction to set the device brightness to the minimum brightness when set to 0%', () => {
+  it("sends the right instruction to set a Litra Beam's brightness based on a percentage", () => {
+    setBrightnessPercentage(fakeLitraBeam, 100);
+
+    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+      17, 255, 4, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it("sends the right instruction to set a Litra Beam LX's brightness based on a percentage", () => {
+    setBrightnessPercentage(fakeLitraBeamLx, 100);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it("sends the right instruction to set a Litra Glow's brightness to the minimum brightness when set to 0%", () => {
     setBrightnessPercentage(fakeLitraGlow, 0);
 
     expect(fakeLitraGlow.hid.write).toBeCalledWith([
       17, 255, 4, 76, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
+  });
 
+  it("sends the right instruction to set a Litra Beam's brightness to the minimum brightness when set to 0%", () => {
     setBrightnessPercentage(fakeLitraBeam, 0);
 
     expect(fakeLitraBeam.hid.write).toBeCalledWith([
       17, 255, 4, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it("sends the right instruction to set a Litra Beam LX's brightness to the minimum brightness when set to 0%", () => {
+    setBrightnessPercentage(fakeLitraBeamLx, 0);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 6, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
@@ -280,6 +503,10 @@ describe('getMinimumBrightnessInLumenForDevice', () => {
   it('returns the correct minimum brightness for a Litra Beam', () => {
     expect(getMinimumBrightnessInLumenForDevice(fakeLitraBeam)).toEqual(30);
   });
+
+  it('returns the correct minimum brightness for a Litra Beam LX', () => {
+    expect(getMinimumBrightnessInLumenForDevice(fakeLitraBeamLx)).toEqual(30);
+  });
 });
 
 describe('getMaximumBrightnessInLumenForDevice', () => {
@@ -289,6 +516,10 @@ describe('getMaximumBrightnessInLumenForDevice', () => {
 
   it('returns the correct maximum brightness for a Litra Beam', () => {
     expect(getMaximumBrightnessInLumenForDevice(fakeLitraBeam)).toEqual(400);
+  });
+
+  it('returns the correct maximum brightness for a Litra Beam LX', () => {
+    expect(getMaximumBrightnessInLumenForDevice(fakeLitraBeamLx)).toEqual(400);
   });
 });
 
@@ -300,6 +531,10 @@ describe('getMinimumTemperatureInKelvinForDevice', () => {
   it('returns the correct minimum temperature for a Litra Beam', () => {
     expect(getMinimumTemperatureInKelvinForDevice(fakeLitraBeam)).toEqual(2700);
   });
+
+  it('returns the correct minimum temperature for a Litra Beam LX', () => {
+    expect(getMinimumTemperatureInKelvinForDevice(fakeLitraBeamLx)).toEqual(2700);
+  });
 });
 
 describe('getMaximumTemperatureInKelvinForDevice', () => {
@@ -309,6 +544,10 @@ describe('getMaximumTemperatureInKelvinForDevice', () => {
 
   it('returns the correct maximum temperature for a Litra Beam', () => {
     expect(getMaximumTemperatureInKelvinForDevice(fakeLitraBeam)).toEqual(6500);
+  });
+
+  it('returns the correct maximum temperature for a Litra Beam LX', () => {
+    expect(getMaximumTemperatureInKelvinForDevice(fakeLitraBeamLx)).toEqual(6500);
   });
 });
 
@@ -328,6 +567,14 @@ describe('getAllowedTemperaturesInKelvinForDevice', () => {
       5500, 5600, 5700, 5800, 5900, 6000, 6100, 6200, 6300, 6400, 6500,
     ]);
   });
+
+  it('returns the allowed temperatures for a Litra Beam LX', () => {
+    expect(getAllowedTemperaturesInKelvinForDevice(fakeLitraBeamLx)).toEqual([
+      2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000,
+      4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000, 5100, 5200, 5300, 5400,
+      5500, 5600, 5700, 5800, 5900, 6000, 6100, 6200, 6300, 6400, 6500,
+    ]);
+  });
 });
 
 describe('getNameForDevice', () => {
@@ -337,5 +584,9 @@ describe('getNameForDevice', () => {
 
   it('returns the correct name for a Litra Beam', () => {
     expect(getNameForDevice(fakeLitraBeam)).toEqual('Logitech Litra Beam');
+  });
+
+  it('returns the correct name for a Litra Beam LX', () => {
+    expect(getNameForDevice(fakeLitraBeamLx)).toEqual('Logitech Litra Beam LX');
   });
 });

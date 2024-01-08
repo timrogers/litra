@@ -1,6 +1,12 @@
 # Logitech Litra
 
-This JavaScript driver allows you to control USB-connected [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html) and [Logitech Litra Beam](https://www.logitech.com/en-gb/products/lighting/litra-beam.946-000007.html) lights using a CLI and from your JavaScript code.
+This driver allows you to control USB-connected Logitech Litra lights using a CLI or from JavaScript code.
+
+The following Logitech Litra devices are supported:
+
+* [Logitech Litra Glow](https://www.logitech.com/en-gb/products/lighting/litra-glow.946-000002.html)
+* [Logitech Litra Beam](https://www.logitech.com/en-gb/products/lighting/litra-beam.946-000007.html) 
+* [Logitech Litra Beam LX](https://www.logitechg.com/en-gb/products/cameras-lighting/litra-beam-lx-led-light.946-000015.html?&utm_source=Google&utm_medium=Paid-Search&utm_campaign=Dialect_FY24_Q3_GBR_GA_G_DTX-LogiG-Creator_Google_na&gad_source=1&gclid=CjwKCAiAp5qsBhAPEiwAP0qeJs7jOdlBu8DCsEoOFt1_BK1HLABI0l2jglDweTnNDddt5neXm_vpyRoCic4QAvD_BwE)
 
 With this driver, you can:
 
@@ -13,7 +19,7 @@ With this driver, you can:
 
 This library:
 
-* only works with Litra devices connected via USB. Logitech Litra Beam devices connected via Bluetooth are not supported.
+* only works with Litra devices connected via USB. Devices connected via Bluetooth are not supported.
 * is only tested on macOS Monterey (12.5) and Windows 11. It's powered by [`node-hid`](https://github.com/node-hid/node-hid), which is compatible with other macOS versions, Windows and Linux, so it would be expected to work there too, but your mileage may vary 🙏
 
 ## Using as a command line tool
@@ -135,7 +141,7 @@ You can set the brightness of your Litra device, measured in Lumen, using the `s
 
 To get the current brightness of your device, use the `getBrightnessInLumen` function.
 
-The Litra Glow supports brightness between 20 and 250 Lumen. The Litra Beam supports brightness between 20 and 400 Lumen.
+The Litra Glow supports brightness between 20 and 250 Lumen. The Litra Beam and Litra Beam LX support brightness between 20 and 400 Lumen.
 
 You can programatically check what brightness levels are supported by your device. Once you know what brightness levels are supported, you can set the brightness in Lumen. If you try to set a value that isn't allowed by your device, an error will be thrown:
 
@@ -182,7 +188,7 @@ You can set the temperature of your Litra device, measured in Kelvin, using the 
 
 The `getTemperatureInKelvin` function can be used to get the current temperature your device is set to.
 
-Both the Litra Glow and Litra Beam support temperatures which are multiples of 100 between 2700 and 6500 Kelvin (i.e.. 2700, 2800, 2900, etc.).
+All supported Litra devices support temperatures which are multiples of 100 between 2700 and 6500 Kelvin (i.e.. 2700, 2800, 2900, etc.).
 
 You can check programatically what temperature levels are supported by your device. Once you know what temperature levels are supported, you can set the temperature in Kelvin. If you try to set a value that isn't allowed by your device, an error will be thrown:
 

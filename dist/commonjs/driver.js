@@ -10,30 +10,36 @@ var DeviceType;
 (function (DeviceType) {
     DeviceType["LitraGlow"] = "litra_glow";
     DeviceType["LitraBeam"] = "litra_beam";
+    DeviceType["LitraBeamLX"] = "litra_beam_lx";
 })(DeviceType || (exports.DeviceType = DeviceType = {}));
 const VENDOR_ID = 0x046d;
 const PRODUCT_IDS = [
     0xc900,
     0xc901,
-    0xb901, // Litra Beam
+    0xb901,
+    0xc903, // Litra Beam LX
 ];
 const USAGE_PAGE = 0xff43;
 const MINIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 20,
     [DeviceType.LitraBeam]: 30,
+    [DeviceType.LitraBeamLX]: 30,
 };
 const MAXIMUM_BRIGHTNESS_IN_LUMEN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 250,
     [DeviceType.LitraBeam]: 400,
+    [DeviceType.LitraBeamLX]: 400,
 };
 const MULTIPLES_OF_100_BETWEEN_2700_AND_6500 = (0, utils_1.multiplesWithinRange)(100, 2700, 6500);
 const ALLOWED_TEMPERATURES_IN_KELVIN_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
     [DeviceType.LitraBeam]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
+    [DeviceType.LitraBeamLX]: MULTIPLES_OF_100_BETWEEN_2700_AND_6500,
 };
 const NAME_BY_DEVICE_TYPE = {
     [DeviceType.LitraGlow]: 'Logitech Litra Glow',
     [DeviceType.LitraBeam]: 'Logitech Litra Beam',
+    [DeviceType.LitraBeamLX]: 'Logitech Litra Beam LX',
 };
 const isLitraDevice = (device) => {
     return (device.vendorId === VENDOR_ID &&
@@ -79,22 +85,40 @@ const findDevices = () => {
     return matchingDevices.map(hidDeviceToDevice);
 };
 exports.findDevices = findDevices;
+const generateTurnOnBytes = (device) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x1c, 0x01], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x01], 20, 0x00);
+    }
+};
 /**
  * Turns your Logitech Litra device on
  *
  * @param {Device} device The device to turn on
  */
 const turnOn = (device) => {
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x01], 20, 0x00));
+    const bytes = generateTurnOnBytes(device);
+    device.hid.write(bytes);
 };
 exports.turnOn = turnOn;
+const generateTurnOffBytes = (device) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x1c, 0x00], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x00], 20, 0x00);
+    }
+};
 /**
  * Turns your Logitech Litra device off
  *
  * @param {Device} device The device to turn off
  */
 const turnOff = (device) => {
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x1c, 0x00], 20, 0x00));
+    const bytes = generateTurnOffBytes(device);
+    device.hid.write(bytes);
 };
 exports.turnOff = turnOff;
 /**
@@ -111,6 +135,14 @@ const toggle = (device) => {
     }
 };
 exports.toggle = toggle;
+const generateIsOnBytes = (device) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x01], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x01], 20, 0x00);
+    }
+};
 /**
  * Gets the current power state of your Logitech Litra device
  *
@@ -118,11 +150,20 @@ exports.toggle = toggle;
  * @returns {boolean} Current power state where true = on and false = off
  */
 const isOn = (device) => {
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x01], 20, 0x00));
+    const bytes = generateIsOnBytes(device);
+    device.hid.write(bytes);
     const data = device.hid.readSync();
     return data[4] === 1;
 };
 exports.isOn = isOn;
+const generateSetTemperatureInKelvinBytes = (device, temperatureInKelvin) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x9c, ...(0, utils_1.integerToBytes)(temperatureInKelvin)], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x9c, ...(0, utils_1.integerToBytes)(temperatureInKelvin)], 20, 0x00);
+    }
+};
 /**
  * Sets the temperature of your Logitech Litra device
  *
@@ -143,9 +184,18 @@ const setTemperatureInKelvin = (device, temperatureInKelvin) => {
     if (!allowedTemperatures.includes(temperatureInKelvin)) {
         throw `Provided temperature must be a multiple of 100 between ${minimumTemperature} and ${maximumTemperature} for this device`;
     }
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x9c, ...(0, utils_1.integerToBytes)(temperatureInKelvin)], 20, 0x00));
+    const bytes = generateSetTemperatureInKelvinBytes(device, temperatureInKelvin);
+    device.hid.write(bytes);
 };
 exports.setTemperatureInKelvin = setTemperatureInKelvin;
+const generateGetTemperatureInKelvinBytes = (device) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x81], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x81], 20, 0x00);
+    }
+};
 /**
  * Gets the temperature of your Logitech Litra device
  *
@@ -153,7 +203,8 @@ exports.setTemperatureInKelvin = setTemperatureInKelvin;
  * @returns {number} The current temperature in Kelvin
  */
 const getTemperatureInKelvin = (device) => {
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x81], 20, 0x00));
+    const bytes = generateGetTemperatureInKelvinBytes(device);
+    device.hid.write(bytes);
     const data = device.hid.readSync();
     // data[4] is the multiple of 256
     // data[5] is the remainder of 256
@@ -161,6 +212,14 @@ const getTemperatureInKelvin = (device) => {
     return data[4] * 256 + data[5];
 };
 exports.getTemperatureInKelvin = getTemperatureInKelvin;
+const generateSetBrightnessInLumenBytes = (device, brightnessInLumen) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x4c, ...(0, utils_1.integerToBytes)(brightnessInLumen)], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x4c, ...(0, utils_1.integerToBytes)(brightnessInLumen)], 20, 0x00);
+    }
+};
 /**
  * Sets the brightness of your Logitech Litra device, measured in Lumen
  *
@@ -178,9 +237,18 @@ const setBrightnessInLumen = (device, brightnessInLumen) => {
     if (brightnessInLumen < minimumBrightness || brightnessInLumen > maximumBrightness) {
         throw `Provided brightness must be between ${minimumBrightness} and ${maximumBrightness} for this device`;
     }
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x4c, ...(0, utils_1.integerToBytes)(brightnessInLumen)], 20, 0x00));
+    const bytes = generateSetBrightnessInLumenBytes(device, brightnessInLumen);
+    device.hid.write(bytes);
 };
 exports.setBrightnessInLumen = setBrightnessInLumen;
+const generateGetBrightnessInLumenBytes = (device) => {
+    if (device.type === DeviceType.LitraBeamLX) {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x06, 0x31], 20, 0x00);
+    }
+    else {
+        return (0, utils_1.padRight)([0x11, 0xff, 0x04, 0x31], 20, 0x00);
+    }
+};
 /**
  * Gets the current brightness of your Logitech Litra device, measured in Lumen
  *
@@ -188,7 +256,8 @@ exports.setBrightnessInLumen = setBrightnessInLumen;
  * @returns {number} The current brightness in Lumen
  */
 const getBrightnessInLumen = (device) => {
-    device.hid.write((0, utils_1.padRight)([0x11, 0xff, 0x04, 0x31], 20, 0x00));
+    const bytes = generateGetBrightnessInLumenBytes(device);
+    device.hid.write(bytes);
     const data = device.hid.readSync();
     return data[5];
 };
@@ -224,6 +293,8 @@ const getDeviceTypeByProductId = (productId) => {
         case PRODUCT_IDS[1]:
         case PRODUCT_IDS[2]:
             return DeviceType.LitraBeam;
+        case PRODUCT_IDS[3]:
+            return DeviceType.LitraBeamLX;
         default:
             throw 'Unknown device type';
     }
