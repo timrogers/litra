@@ -1,5 +1,9 @@
 # Logitech Litra
 
+__If you're looking for a command line tool to control your Litra device, I now recommend [my new `litra` CLI](https://github.com/timrogers/litra-rs), written in Rust and available as a single, compiled binary.__ This project is only recommended if you want to manage your Litra device from a JavaScript application. For more information, see the discussion [here](https://github.com/timrogers/litra/discussions/313).
+
+---
+
 This driver allows you to control USB-connected Logitech Litra lights using a CLI or from JavaScript code.
 
 The following Logitech Litra devices are supported:
