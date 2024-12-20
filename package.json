@@ -12,8 +12,8 @@
     "test": "jest",
     "build": "npx tsc -p tsconfig.json && tsc -p tsconfig-commonjs.json",
     "prepublish": "npm run build",
-    "lint": "eslint . --ext .ts",
-    "lint-and-fix": "eslint . --ext .ts --fix",
+    "lint": "eslint .",
+    "lint-and-fix": "eslint . --fix",
     "semantic-release": "semantic-release"
   },
   "author": "Tim Rogers <me@timrogers.co.uk>",
