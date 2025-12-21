@@ -54,7 +54,7 @@ export const percentageWithinRange = (
   startRange: number,
   endRange: number,
 ): number => {
-  return Math.round(Math.ceil((percentage / 100) * (endRange - startRange) + startRange));
+  return Math.ceil((percentage / 100) * (endRange - startRange) + startRange);
 };
 
 /**
