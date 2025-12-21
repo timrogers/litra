@@ -482,6 +482,24 @@ describe('setBrightnessPercentage', () => {
     ]);
   });
 
+  it('sets a Litra Glow to different brightness values for 0% and 1%', () => {
+    setBrightnessPercentage(fakeLitraGlow, 0);
+    const callsAfter0 = (fakeLitraGlow.hid.write as jest.Mock).mock.calls.length;
+    const brightnessAt0 = (fakeLitraGlow.hid.write as jest.Mock).mock.calls[
+      callsAfter0 - 1
+    ][0][5];
+
+    setBrightnessPercentage(fakeLitraGlow, 1);
+    const callsAfter1 = (fakeLitraGlow.hid.write as jest.Mock).mock.calls.length;
+    const brightnessAt1 = (fakeLitraGlow.hid.write as jest.Mock).mock.calls[
+      callsAfter1 - 1
+    ][0][5];
+
+    expect(brightnessAt0).toEqual(20); // minimum brightness
+    expect(brightnessAt1).toEqual(23); // slightly above minimum
+    expect(brightnessAt0).not.toEqual(brightnessAt1);
+  });
+
   it('throws an error if the provided percentage is less than 0', () => {
     expect(() => setBrightnessPercentage(fakeDevice, -1)).toThrowError(
       'Percentage must be between 0 and 100',

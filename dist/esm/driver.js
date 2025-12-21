@@ -8,9 +8,9 @@ export var DeviceType;
 })(DeviceType || (DeviceType = {}));
 const VENDOR_ID = 0x046d;
 const PRODUCT_IDS = [
-    0xc900,
-    0xc901,
-    0xb901,
+    0xc900, // Litra Glow
+    0xc901, // Litra Beam
+    0xb901, // Litra Beam
     0xc903, // Litra Beam LX
 ];
 const USAGE_PAGE = 0xff43;
@@ -259,9 +259,7 @@ export const setBrightnessPercentage = (device, brightnessPercentage) => {
     }
     const minimumBrightness = getMinimumBrightnessInLumenForDevice(device);
     const maximumBrightness = getMaximumBrightnessInLumenForDevice(device);
-    return setBrightnessInLumen(device, brightnessPercentage === 0
-        ? minimumBrightness
-        : percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness));
+    return setBrightnessInLumen(device, percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness));
 };
 /**
  * Gets the type of a Logitech Litra device by its product IOD

@@ -341,9 +341,7 @@ export const setBrightnessPercentage = (
 
   return setBrightnessInLumen(
     device,
-    brightnessPercentage === 0
-      ? minimumBrightness
-      : percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness),
+    percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness),
   );
 };
 

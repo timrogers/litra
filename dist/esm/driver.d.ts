@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export declare enum DeviceType {
     LitraGlow = "litra_glow",
     LitraBeam = "litra_beam",

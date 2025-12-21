@@ -14,9 +14,9 @@ var DeviceType;
 })(DeviceType || (exports.DeviceType = DeviceType = {}));
 const VENDOR_ID = 0x046d;
 const PRODUCT_IDS = [
-    0xc900,
-    0xc901,
-    0xb901,
+    0xc900, // Litra Glow
+    0xc901, // Litra Beam
+    0xb901, // Litra Beam
     0xc903, // Litra Beam LX
 ];
 const USAGE_PAGE = 0xff43;
@@ -275,9 +275,7 @@ const setBrightnessPercentage = (device, brightnessPercentage) => {
     }
     const minimumBrightness = (0, exports.getMinimumBrightnessInLumenForDevice)(device);
     const maximumBrightness = (0, exports.getMaximumBrightnessInLumenForDevice)(device);
-    return (0, exports.setBrightnessInLumen)(device, brightnessPercentage === 0
-        ? minimumBrightness
-        : (0, utils_1.percentageWithinRange)(brightnessPercentage, minimumBrightness, maximumBrightness));
+    return (0, exports.setBrightnessInLumen)(device, (0, utils_1.percentageWithinRange)(brightnessPercentage, minimumBrightness, maximumBrightness));
 };
 exports.setBrightnessPercentage = setBrightnessPercentage;
 /**

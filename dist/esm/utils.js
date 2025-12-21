@@ -46,7 +46,7 @@ export const integerToBytes = (integer) => {
  * @returns {number} The value at the given percentage
  */
 export const percentageWithinRange = (percentage, startRange, endRange) => {
-    return Math.round(Math.ceil(((percentage - 1) / (100 - 1)) * (endRange - startRange) + startRange));
+    return Math.ceil((percentage / 100) * (endRange - startRange) + startRange);
 };
 /**
  * Finds all multiples of a given integer within a range. The returned
