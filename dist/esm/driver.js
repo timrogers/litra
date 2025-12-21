@@ -259,9 +259,7 @@ export const setBrightnessPercentage = (device, brightnessPercentage) => {
     }
     const minimumBrightness = getMinimumBrightnessInLumenForDevice(device);
     const maximumBrightness = getMaximumBrightnessInLumenForDevice(device);
-    return setBrightnessInLumen(device, brightnessPercentage === 0
-        ? minimumBrightness
-        : percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness));
+    return setBrightnessInLumen(device, percentageWithinRange(brightnessPercentage, minimumBrightness, maximumBrightness));
 };
 /**
  * Gets the type of a Logitech Litra device by its product IOD

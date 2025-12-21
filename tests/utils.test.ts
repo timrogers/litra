@@ -33,9 +33,9 @@ describe('padRight', () => {
 
 describe('percentageWithinRange', () => {
   it('maps the percentage within the range', () => {
-    expect(percentageWithinRange(50, 1, 100)).toEqual(50);
-    expect(percentageWithinRange(25, 1, 200)).toEqual(50);
-    expect(percentageWithinRange(50, 1, 200)).toEqual(100);
+    expect(percentageWithinRange(50, 1, 100)).toEqual(51);
+    expect(percentageWithinRange(25, 1, 200)).toEqual(51);
+    expect(percentageWithinRange(50, 1, 200)).toEqual(101);
   });
 });
 

@@ -275,9 +275,7 @@ const setBrightnessPercentage = (device, brightnessPercentage) => {
     }
     const minimumBrightness = (0, exports.getMinimumBrightnessInLumenForDevice)(device);
     const maximumBrightness = (0, exports.getMaximumBrightnessInLumenForDevice)(device);
-    return (0, exports.setBrightnessInLumen)(device, brightnessPercentage === 0
-        ? minimumBrightness
-        : (0, utils_1.percentageWithinRange)(brightnessPercentage, minimumBrightness, maximumBrightness));
+    return (0, exports.setBrightnessInLumen)(device, (0, utils_1.percentageWithinRange)(brightnessPercentage, minimumBrightness, maximumBrightness));
 };
 exports.setBrightnessPercentage = setBrightnessPercentage;
 /**

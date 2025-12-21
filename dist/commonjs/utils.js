@@ -51,7 +51,7 @@ exports.integerToBytes = integerToBytes;
  * @returns {number} The value at the given percentage
  */
 const percentageWithinRange = (percentage, startRange, endRange) => {
-    return Math.round(Math.ceil(((percentage - 1) / (100 - 1)) * (endRange - startRange) + startRange));
+    return Math.round(Math.ceil((percentage / 100) * (endRange - startRange) + startRange));
 };
 exports.percentageWithinRange = percentageWithinRange;
 /**
