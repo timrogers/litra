@@ -9,7 +9,7 @@ program
 program.parse();
 const { json, version } = program.opts();
 if (version) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     console.log(require('../../../package.json').version);
     process.exit(0);
 }

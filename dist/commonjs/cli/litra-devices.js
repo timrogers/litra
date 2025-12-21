@@ -11,7 +11,7 @@ commander_1.program
 commander_1.program.parse();
 const { json, version } = commander_1.program.opts();
 if (version) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     console.log(require('../../../package.json').version);
     process.exit(0);
 }
