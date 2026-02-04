@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { setBacklightBrightnessPercentage, getBacklightBrightnessPercentage } from '../driver';
+import { setBacklightBrightnessPercentage, getBacklightBrightnessPercentage, } from '../driver';
 import { getDeviceForCLI, parseIntOption } from './utils';
 program
     .name('litra-back-brightness')

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { setBacklightBrightnessPercentage, getBacklightBrightnessPercentage } from '../driver';
+import {
+  setBacklightBrightnessPercentage,
+  getBacklightBrightnessPercentage,
+} from '../driver';
 import { getDeviceForCLI, parseIntOption } from './utils';
 
 program
@@ -25,14 +28,14 @@ const [brightness] = program.processedArgs;
 
 try {
   const device = getDeviceForCLI(serialNumber);
-  
+
   if (brightness !== undefined) {
     setBacklightBrightnessPercentage(device, brightness);
   } else {
     const currentBrightness = getBacklightBrightnessPercentage(device);
     console.log(currentBrightness);
   }
-  
+
   process.exit(0);
 } catch (e) {
   console.log(e);
