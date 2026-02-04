@@ -57,6 +57,10 @@
     "litra-brightness-lm": "./dist/commonjs/cli/litra-brightness-lm.js",
     "litra-temperature-k": "./dist/commonjs/cli/litra-temperature-k.js",
     "litra-identify": "./dist/commonjs/cli/litra-identify.js",
-    "litra-devices": "./dist/commonjs/cli/litra-devices.js"
+    "litra-devices": "./dist/commonjs/cli/litra-devices.js",
+    "litra-back-on": "./dist/commonjs/cli/litra-back-on.js",
+    "litra-back-off": "./dist/commonjs/cli/litra-back-off.js",
+    "litra-back-toggle": "./dist/commonjs/cli/litra-back-toggle.js",
+    "litra-back-brightness": "./dist/commonjs/cli/litra-back-brightness.js"
   }
 }
