@@ -139,3 +139,28 @@ export declare const getAllowedTemperaturesInKelvinForDevice: (device: Device) =
  * @returns {string} The name of the device, e.g. "Logitech Litra Glow"
  */
 export declare const getNameForDevice: (device: Device) => string;
+/**
+ * Turns the backlight on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight on for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export declare const backlightOn: (device: Device) => void;
+/**
+ * Turns the backlight off for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight off for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export declare const backlightOff: (device: Device) => void;
+/**
+ * Checks whether the backlight is currently on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to check the backlight status for
+ * @returns {boolean} true if the backlight is on, false if it is off
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export declare const isBacklightOn: (device: Device) => boolean;

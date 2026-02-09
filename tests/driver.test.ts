@@ -15,6 +15,9 @@ import {
   turnOn,
   toggle,
   isOn,
+  backlightOn,
+  backlightOff,
+  isBacklightOn,
   Device,
 } from '../src/driver';
 
@@ -606,5 +609,87 @@ describe('getNameForDevice', () => {
 
   it('returns the correct name for a Litra Beam LX', () => {
     expect(getNameForDevice(fakeLitraBeamLx)).toEqual('Logitech Litra Beam LX');
+  });
+});
+
+describe('backlightOn', () => {
+  it('writes correct command bytes to activate Litra Beam LX backlight', () => {
+    backlightOn(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 10, 75, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('throws error when attempting to enable backlight on Litra Glow', () => {
+    expect(() => backlightOn(fakeLitraGlow)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
+  });
+
+  it('throws error when attempting to enable backlight on Litra Beam', () => {
+    expect(() => backlightOn(fakeLitraBeam)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
+  });
+});
+
+describe('backlightOff', () => {
+  it('writes correct command bytes to deactivate Litra Beam LX backlight', () => {
+    backlightOff(fakeLitraBeamLx);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 10, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('throws error when attempting to disable backlight on Litra Glow', () => {
+    expect(() => backlightOff(fakeLitraGlow)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
+  });
+
+  it('throws error when attempting to disable backlight on Litra Beam', () => {
+    expect(() => backlightOff(fakeLitraBeam)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
+  });
+});
+
+describe('isBacklightOn', () => {
+  it('writes correct query bytes and returns true when Litra Beam LX backlight is active', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 10, 59, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    expect(isBacklightOn(fakeLitraBeamLx)).toEqual(true);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 10, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('writes correct query bytes and returns false when Litra Beam LX backlight is inactive', () => {
+    fakeLitraBeamLx.hid.readSync = jest
+      .fn()
+      .mockReturnValue([17, 255, 10, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+    expect(isBacklightOn(fakeLitraBeamLx)).toEqual(false);
+
+    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+      17, 255, 10, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+  });
+
+  it('throws error when checking backlight status on Litra Glow', () => {
+    expect(() => isBacklightOn(fakeLitraGlow)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
+  });
+
+  it('throws error when checking backlight status on Litra Beam', () => {
+    expect(() => isBacklightOn(fakeLitraBeam)).toThrow(
+      'Backlight control is only supported on Litra Beam LX devices',
+    );
   });
 });
