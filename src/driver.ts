@@ -425,3 +425,68 @@ export const getAllowedTemperaturesInKelvinForDevice = (device: Device): number[
 export const getNameForDevice = (device: Device): string => {
   return NAME_BY_DEVICE_TYPE[device.type];
 };
+
+const buildBacklightOnBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x0a, 0x4b, 0x01], 20, 0x00);
+};
+
+/**
+ * Turns the backlight on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight on for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export const backlightOn = (device: Device): void => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight control is only supported on Litra Beam LX devices';
+  }
+
+  const message = buildBacklightOnBytes();
+  device.hid.write(message);
+};
+
+const buildBacklightOffBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x0a, 0x4b, 0x00], 20, 0x00);
+};
+
+/**
+ * Turns the backlight off for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight off for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export const backlightOff = (device: Device): void => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight control is only supported on Litra Beam LX devices';
+  }
+
+  const message = buildBacklightOffBytes();
+  device.hid.write(message);
+};
+
+const buildBacklightStatusQueryBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x0a, 0x3b], 20, 0x00);
+};
+
+/**
+ * Checks whether the backlight is currently on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to check the backlight status for
+ * @returns {boolean} true if the backlight is on, false if it is off
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+export const isBacklightOn = (device: Device): boolean => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight control is only supported on Litra Beam LX devices';
+  }
+
+  const query = buildBacklightStatusQueryBytes();
+  device.hid.write(query);
+
+  const response = device.hid.readSync();
+
+  return response[4] === 1;
+};

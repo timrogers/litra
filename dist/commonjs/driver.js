@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.getBrightnessInLumen = exports.setBrightnessInLumen = exports.getTemperatureInKelvin = exports.setTemperatureInKelvin = exports.isOn = exports.toggle = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
+exports.isBacklightOn = exports.backlightOff = exports.backlightOn = exports.getNameForDevice = exports.getAllowedTemperaturesInKelvinForDevice = exports.getMaximumTemperatureInKelvinForDevice = exports.getMinimumTemperatureInKelvinForDevice = exports.getMaximumBrightnessInLumenForDevice = exports.getMinimumBrightnessInLumenForDevice = exports.setBrightnessPercentage = exports.getBrightnessInLumen = exports.setBrightnessInLumen = exports.getTemperatureInKelvin = exports.setTemperatureInKelvin = exports.isOn = exports.toggle = exports.turnOff = exports.turnOn = exports.findDevices = exports.findDevice = exports.DeviceType = void 0;
 const node_hid_1 = __importDefault(require("node-hid"));
 const utils_1 = require("./utils");
 var DeviceType;
@@ -358,3 +358,60 @@ const getNameForDevice = (device) => {
     return NAME_BY_DEVICE_TYPE[device.type];
 };
 exports.getNameForDevice = getNameForDevice;
+const buildBacklightOnBytes = () => {
+    return (0, utils_1.padRight)([0x11, 0xff, 0x0a, 0x4b, 0x01], 20, 0x00);
+};
+/**
+ * Turns the backlight on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight on for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+const backlightOn = (device) => {
+    if (device.type !== DeviceType.LitraBeamLX) {
+        throw 'Backlight control is only supported on Litra Beam LX devices';
+    }
+    const message = buildBacklightOnBytes();
+    device.hid.write(message);
+};
+exports.backlightOn = backlightOn;
+const buildBacklightOffBytes = () => {
+    return (0, utils_1.padRight)([0x11, 0xff, 0x0a, 0x4b, 0x00], 20, 0x00);
+};
+/**
+ * Turns the backlight off for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to turn the backlight off for
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+const backlightOff = (device) => {
+    if (device.type !== DeviceType.LitraBeamLX) {
+        throw 'Backlight control is only supported on Litra Beam LX devices';
+    }
+    const message = buildBacklightOffBytes();
+    device.hid.write(message);
+};
+exports.backlightOff = backlightOff;
+const buildBacklightStatusQueryBytes = () => {
+    return (0, utils_1.padRight)([0x11, 0xff, 0x0a, 0x3b], 20, 0x00);
+};
+/**
+ * Checks whether the backlight is currently on for your Logitech Litra Beam LX device.
+ * Note: This feature is only available on Litra Beam LX devices.
+ *
+ * @param {Device} device The device to check the backlight status for
+ * @returns {boolean} true if the backlight is on, false if it is off
+ * @throws {string} If the device is not a Litra Beam LX
+ */
+const isBacklightOn = (device) => {
+    if (device.type !== DeviceType.LitraBeamLX) {
+        throw 'Backlight control is only supported on Litra Beam LX devices';
+    }
+    const query = buildBacklightStatusQueryBytes();
+    device.hid.write(query);
+    const response = device.hid.readSync();
+    return response[4] === 1;
+};
+exports.isBacklightOn = isBacklightOn;

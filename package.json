@@ -57,6 +57,8 @@
     "litra-brightness-lm": "./dist/commonjs/cli/litra-brightness-lm.js",
     "litra-temperature-k": "./dist/commonjs/cli/litra-temperature-k.js",
     "litra-identify": "./dist/commonjs/cli/litra-identify.js",
-    "litra-devices": "./dist/commonjs/cli/litra-devices.js"
+    "litra-devices": "./dist/commonjs/cli/litra-devices.js",
+    "litra-backlight-on": "./dist/commonjs/cli/litra-backlight-on.js",
+    "litra-backlight-off": "./dist/commonjs/cli/litra-backlight-off.js"
   }
 }
