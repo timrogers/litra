@@ -24,7 +24,7 @@ jobs:
     # If you do not check out your code, Copilot will do this for you.
     steps:
       - name: Clone repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Node.js
         uses: actions/setup-node@v4.3.0
         with:
