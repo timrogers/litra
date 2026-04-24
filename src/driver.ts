@@ -425,3 +425,133 @@ export const getAllowedTemperaturesInKelvinForDevice = (device: Device): number[
 export const getNameForDevice = (device: Device): string => {
   return NAME_BY_DEVICE_TYPE[device.type];
 };
+
+const generateSetBacklightOnBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x06, 0x1d, 0x01], 20, 0x00);
+};
+
+/**
+ * Turns the backlight on for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to turn the backlight on for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export const setBacklightOn = (device: Device): void => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight is only supported on Litra Beam LX devices';
+  }
+
+  const bytes = generateSetBacklightOnBytes();
+  device.hid.write(bytes);
+};
+
+const generateSetBacklightOffBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x06, 0x1d, 0x00], 20, 0x00);
+};
+
+/**
+ * Turns the backlight off for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to turn the backlight off for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export const setBacklightOff = (device: Device): void => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight is only supported on Litra Beam LX devices';
+  }
+
+  const bytes = generateSetBacklightOffBytes();
+  device.hid.write(bytes);
+};
+
+/**
+ * Toggles the backlight on or off for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to toggle the backlight for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export const toggleBacklight = (device: Device): void => {
+  if (isBacklightOn(device)) {
+    setBacklightOff(device);
+  } else {
+    setBacklightOn(device);
+  }
+};
+
+const generateIsBacklightOnBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x06, 0x11], 20, 0x00);
+};
+
+/**
+ * Gets the current backlight state of your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to get the current backlight state for
+ * @returns {boolean} Current backlight state where true = on and false = off
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export const isBacklightOn = (device: Device): boolean => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight is only supported on Litra Beam LX devices';
+  }
+
+  const bytes = generateIsBacklightOnBytes();
+  device.hid.write(bytes);
+
+  const data = device.hid.readSync();
+
+  return data[4] === 1;
+};
+
+const generateSetBacklightBrightnessPercentageBytes = (
+  brightnessPercentage: number,
+): number[] => {
+  return padRight([0x11, 0xff, 0x06, 0x21, brightnessPercentage], 20, 0x00);
+};
+
+/**
+ * Sets the brightness of the backlight on your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to set the backlight brightness for
+ * @param {number} brightnessPercentage The brightness percentage to set (0-100)
+ * @throws {Error} If the device is not a Litra Beam LX
+ * @throws {Error} If the brightness percentage is not between 0 and 100
+ */
+export const setBacklightBrightnessPercentage = (
+  device: Device,
+  brightnessPercentage: number,
+): void => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight is only supported on Litra Beam LX devices';
+  }
+
+  if (brightnessPercentage < 0 || brightnessPercentage > 100) {
+    throw 'Brightness percentage must be between 0 and 100';
+  }
+
+  const bytes = generateSetBacklightBrightnessPercentageBytes(brightnessPercentage);
+  device.hid.write(bytes);
+};
+
+const generateGetBacklightBrightnessPercentageBytes = (): number[] => {
+  return padRight([0x11, 0xff, 0x06, 0x12], 20, 0x00);
+};
+
+/**
+ * Gets the current brightness percentage of the backlight on your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to get the backlight brightness for
+ * @returns {number} The current brightness percentage (0-100)
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export const getBacklightBrightnessPercentage = (device: Device): number => {
+  if (device.type !== DeviceType.LitraBeamLX) {
+    throw 'Backlight is only supported on Litra Beam LX devices';
+  }
+
+  const bytes = generateGetBacklightBrightnessPercentageBytes();
+  device.hid.write(bytes);
+
+  const data = device.hid.readSync();
+
+  return data[4];
+};

@@ -18,6 +18,7 @@ With this driver, you can:
 - Check if the light is on or off
 - Set and get the brightness of your light
 - Set and get the temperature of your light
+- Control the backlight on the Litra Beam LX (turn on/off, adjust brightness)
 
 ## Compatibility
 
@@ -36,6 +37,8 @@ With the package installed:
 - Use the `litra-brightness` command to set your Litra's brightness to a percentage of its maximum (e.g. `litra-brightness 90`).
 - Use the `litra-brightness-lm` command to get or set your Litra's brightness to a value in Lumen (e.g. `litra-brightness 250`).
 - Use the `litra-temperature-k` command to get or set your Litra's temperature to a value in Kelvin (e.g. `litra-temperature-k 6500`).
+- For Litra Beam LX devices, use the `litra-back-on`, `litra-back-off` and `litra-back-toggle` commands to control the backlight.
+- For Litra Beam LX devices, use the `litra-back-brightness` command to get or set the backlight brightness as a percentage (e.g. `litra-back-brightness 75`).
 
 All of the these commands support a `--serial-number`/`-s` argument to specify the serial number of the device you want to target. If you only have one Litra device, you can omit this argument. If you have multiple devices, we recommend specifying it. If it isn't specified, the "first" device will be picked, but this isn't guaranteed to be stable between command runs.
 
@@ -223,6 +226,49 @@ if (device) {
   getTemeratureInKelvin(device);
 }
 ```
+
+#### Controlling the backlight on the Litra Beam LX
+
+The Litra Beam LX has a colorful backlight that can be controlled independently from the main light. You can turn it on and off, toggle it, check its status, and adjust its brightness.
+
+```js
+import {
+  findDevice,
+  setBacklightOn,
+  setBacklightOff,
+  toggleBacklight,
+  isBacklightOn,
+  setBacklightBrightnessPercentage,
+  getBacklightBrightnessPercentage,
+} from 'litra';
+
+const device = findDevice();
+
+if (device) {
+  // Turn the backlight on
+  setBacklightOn(device);
+
+  // Check if the backlight is on
+  if (isBacklightOn(device)) {
+    console.log('Backlight is on!');
+  }
+
+  // Set backlight brightness to 50%
+  setBacklightBrightnessPercentage(device, 50);
+
+  // Get current backlight brightness
+  const brightness = getBacklightBrightnessPercentage(device);
+  console.log(`Current backlight brightness: ${brightness}%`);
+
+  // Toggle the backlight off
+  toggleBacklight(device);
+
+  // Turn the backlight off
+  setBacklightOff(device);
+}
+```
+
+**Note:** Backlight functions are only supported on the Litra Beam LX device. Calling these functions on other device types will throw an error.
 
 ## Using with Raycast
 

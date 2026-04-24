@@ -139,3 +139,49 @@ export declare const getAllowedTemperaturesInKelvinForDevice: (device: Device) =
  * @returns {string} The name of the device, e.g. "Logitech Litra Glow"
  */
 export declare const getNameForDevice: (device: Device) => string;
+/**
+ * Turns the backlight on for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to turn the backlight on for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export declare const setBacklightOn: (device: Device) => void;
+/**
+ * Turns the backlight off for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to turn the backlight off for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export declare const setBacklightOff: (device: Device) => void;
+/**
+ * Toggles the backlight on or off for your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to toggle the backlight for
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export declare const toggleBacklight: (device: Device) => void;
+/**
+ * Gets the current backlight state of your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to get the current backlight state for
+ * @returns {boolean} Current backlight state where true = on and false = off
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export declare const isBacklightOn: (device: Device) => boolean;
+/**
+ * Sets the brightness of the backlight on your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to set the backlight brightness for
+ * @param {number} brightnessPercentage The brightness percentage to set (0-100)
+ * @throws {Error} If the device is not a Litra Beam LX
+ * @throws {Error} If the brightness percentage is not between 0 and 100
+ */
+export declare const setBacklightBrightnessPercentage: (device: Device, brightnessPercentage: number) => void;
+/**
+ * Gets the current brightness percentage of the backlight on your Logitech Litra Beam LX device
+ *
+ * @param {Device} device The device to get the backlight brightness for
+ * @returns {number} The current brightness percentage (0-100)
+ * @throws {Error} If the device is not a Litra Beam LX
+ */
+export declare const getBacklightBrightnessPercentage: (device: Device) => number;
