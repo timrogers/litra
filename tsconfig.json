@@ -2,21 +2,22 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "ES2020",
+    "lib": ["ES2020"],
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
     "outDir": "./dist/esm",
     "declaration": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "types": ["node-hid", "node", "jest"]
   },
   "include": [
     "./src"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "types": [
-    "node-hid"
   ]
 }
