@@ -55,7 +55,7 @@ describe('turnOn', () => {
   it('sends the correct instruction to turn the device on for a Litra Glow', () => {
     turnOn(fakeLitraGlow);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -63,7 +63,7 @@ describe('turnOn', () => {
   it('sends the correct instruction to turn the device on for a Litra Beam', () => {
     turnOn(fakeLitraBeam);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -71,7 +71,7 @@ describe('turnOn', () => {
   it('sends the correct instruction to turn the device on for a Litra Beam LX', () => {
     turnOn(fakeLitraBeamLx);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -81,7 +81,7 @@ describe('turnOff', () => {
   it('sends the correct instruction to turn the device off for a Litra Glow', () => {
     turnOff(fakeLitraGlow);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -89,7 +89,7 @@ describe('turnOff', () => {
   it('sends the correct instruction to turn the device off for a Litra Beam', () => {
     turnOff(fakeLitraBeam);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -97,7 +97,7 @@ describe('turnOff', () => {
   it('sends the correct instruction to turn the device off for a Litra Beam LX', () => {
     turnOff(fakeLitraBeamLx);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -111,7 +111,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraGlow);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -123,7 +123,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraBeam);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -135,7 +135,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraBeamLx);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -147,7 +147,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraGlow);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -159,7 +159,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraBeam);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -171,7 +171,7 @@ describe('toggle', () => {
 
     toggle(fakeLitraBeamLx);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -185,7 +185,7 @@ describe('isOn', () => {
 
     isOn(fakeLitraGlow);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -197,7 +197,7 @@ describe('isOn', () => {
 
     isOn(fakeLitraBeam);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -209,7 +209,7 @@ describe('isOn', () => {
 
     isOn(fakeLitraBeamLx);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -235,7 +235,7 @@ describe('setTemperatureInKelvin', () => {
   it('sends the right instruction to set the temperature for a Litra Glow', () => {
     setTemperatureInKelvin(fakeLitraGlow, 6300);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -243,7 +243,7 @@ describe('setTemperatureInKelvin', () => {
   it('sends the right instruction to set the temperature for a Litra Beam', () => {
     setTemperatureInKelvin(fakeLitraBeam, 6300);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -251,43 +251,43 @@ describe('setTemperatureInKelvin', () => {
   it('sends the right instruction to set the temperature for a Litra Beam LX', () => {
     setTemperatureInKelvin(fakeLitraBeamLx, 6300);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 156, 24, 156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
   it('throws an error if the temperature is below the minimum for the device', () => {
-    expect(() => setTemperatureInKelvin(fakeLitraGlow, 2699)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraGlow, 2699)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
 
-    expect(() => setTemperatureInKelvin(fakeLitraBeam, 2699)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraBeam, 2699)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
 
   it('throws an error if the temperature is above the maximum for the device', () => {
-    expect(() => setTemperatureInKelvin(fakeLitraGlow, 6501)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraGlow, 6501)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
 
-    expect(() => setTemperatureInKelvin(fakeLitraBeam, 6501)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraBeam, 6501)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
 
   it('throws an error if the temperature is not an integer', () => {
-    expect(() => setTemperatureInKelvin(fakeDevice, 1337.9)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeDevice, 1337.9)).toThrow(
       'Provided temperature must be an integer',
     );
   });
 
   it('throws an error if the temperature is not a multiple of 100', () => {
-    expect(() => setTemperatureInKelvin(fakeLitraGlow, 2750)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraGlow, 2750)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
 
-    expect(() => setTemperatureInKelvin(fakeLitraBeam, 6499)).toThrowError(
+    expect(() => setTemperatureInKelvin(fakeLitraBeam, 6499)).toThrow(
       'Provided temperature must be a multiple of 100 between 2700 and 6500',
     );
   });
@@ -303,7 +303,7 @@ describe('getTemperatureInKelvin', () => {
 
     expect(getTemperatureInKelvin(fakeLitraGlow)).toEqual(5000);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -317,7 +317,7 @@ describe('getTemperatureInKelvin', () => {
 
     expect(getTemperatureInKelvin(fakeLitraBeam)).toEqual(5000);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -331,7 +331,7 @@ describe('getTemperatureInKelvin', () => {
 
     expect(getTemperatureInKelvin(fakeLitraBeamLx)).toEqual(5000);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -341,7 +341,7 @@ describe('setBrightnessInLumen', () => {
   it('sends the right instruction to set the brightness of a Litra Glow', () => {
     setBrightnessInLumen(fakeLitraGlow, 20);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -349,7 +349,7 @@ describe('setBrightnessInLumen', () => {
   it('sends the right instruction to set the brightness of a Litra Beam', () => {
     setBrightnessInLumen(fakeLitraBeam, 30);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -357,33 +357,33 @@ describe('setBrightnessInLumen', () => {
   it('sends the right instruction to set the brightness of a Litra Beam LX', () => {
     setBrightnessInLumen(fakeLitraBeamLx, 30);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
 
   it('throws an error if the brightness is below the minimum for the device', () => {
-    expect(() => setBrightnessInLumen(fakeLitraGlow, 19)).toThrowError(
+    expect(() => setBrightnessInLumen(fakeLitraGlow, 19)).toThrow(
       'Provided brightness must be between 20 and 250',
     );
 
-    expect(() => setBrightnessInLumen(fakeLitraBeam, 19)).toThrowError(
+    expect(() => setBrightnessInLumen(fakeLitraBeam, 19)).toThrow(
       'Provided brightness must be between 30 and 400',
     );
   });
 
   it('throws an error if the brightness is above the maximum for the device', () => {
-    expect(() => setBrightnessInLumen(fakeLitraGlow, 251)).toThrowError(
+    expect(() => setBrightnessInLumen(fakeLitraGlow, 251)).toThrow(
       'Provided brightness must be between 20 and 250',
     );
 
-    expect(() => setBrightnessInLumen(fakeLitraBeam, 401)).toThrowError(
+    expect(() => setBrightnessInLumen(fakeLitraBeam, 401)).toThrow(
       'Provided brightness must be between 30 and 400',
     );
   });
 
   it('throws an error if the brightness is not an integer', () => {
-    expect(() => setBrightnessInLumen(fakeDevice, 1337.9)).toThrowError(
+    expect(() => setBrightnessInLumen(fakeDevice, 1337.9)).toThrow(
       'Provided brightness must be an integer',
     );
   });
@@ -399,7 +399,7 @@ describe('getBrightnessInLumen', () => {
 
     expect(getBrightnessInLumen(fakeLitraGlow)).toEqual(216);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -413,7 +413,7 @@ describe('getBrightnessInLumen', () => {
 
     expect(getBrightnessInLumen(fakeLitraBeam)).toEqual(216);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -427,7 +427,7 @@ describe('getBrightnessInLumen', () => {
 
     expect(getBrightnessInLumen(fakeLitraBeamLx)).toEqual(216);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -437,7 +437,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Glow's brightness based on a percentage", () => {
     setBrightnessPercentage(fakeLitraBeam, 100);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -445,7 +445,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Beam's brightness based on a percentage", () => {
     setBrightnessPercentage(fakeLitraBeam, 100);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -453,7 +453,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Beam LX's brightness based on a percentage", () => {
     setBrightnessPercentage(fakeLitraBeamLx, 100);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 76, 1, 144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -461,7 +461,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Glow's brightness to the minimum brightness when set to 0%", () => {
     setBrightnessPercentage(fakeLitraGlow, 0);
 
-    expect(fakeLitraGlow.hid.write).toBeCalledWith([
+    expect(fakeLitraGlow.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -469,7 +469,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Beam's brightness to the minimum brightness when set to 0%", () => {
     setBrightnessPercentage(fakeLitraBeam, 0);
 
-    expect(fakeLitraBeam.hid.write).toBeCalledWith([
+    expect(fakeLitraBeam.hid.write).toHaveBeenCalledWith([
       17, 255, 4, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -477,7 +477,7 @@ describe('setBrightnessPercentage', () => {
   it("sends the right instruction to set a Litra Beam LX's brightness to the minimum brightness when set to 0%", () => {
     setBrightnessPercentage(fakeLitraBeamLx, 0);
 
-    expect(fakeLitraBeamLx.hid.write).toBeCalledWith([
+    expect(fakeLitraBeamLx.hid.write).toHaveBeenCalledWith([
       17, 255, 6, 76, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
   });
@@ -501,13 +501,13 @@ describe('setBrightnessPercentage', () => {
   });
 
   it('throws an error if the provided percentage is less than 0', () => {
-    expect(() => setBrightnessPercentage(fakeDevice, -1)).toThrowError(
+    expect(() => setBrightnessPercentage(fakeDevice, -1)).toThrow(
       'Percentage must be between 0 and 100',
     );
   });
 
   it('throws an error if the provided percentage is more than 100', () => {
-    expect(() => setBrightnessPercentage(fakeDevice, 101)).toThrowError(
+    expect(() => setBrightnessPercentage(fakeDevice, 101)).toThrow(
       'Percentage must be between 0 and 100',
     );
   });

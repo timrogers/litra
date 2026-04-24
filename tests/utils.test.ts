@@ -11,7 +11,7 @@ describe('integerToBytes', () => {
   });
 
   it('throws an error if the parameter is not an integer', () => {
-    expect(() => integerToBytes(1337.9)).toThrowError(
+    expect(() => integerToBytes(1337.9)).toThrow(
       'Provided value must be an integer',
     );
   });
@@ -41,19 +41,19 @@ describe('percentageWithinRange', () => {
 
 describe('multiplesWithinRange', () => {
   it('throws an error if the number to find increments of is not an integer', () => {
-    expect(() => multiplesWithinRange(4.5, 0, 1000)).toThrowError(
+    expect(() => multiplesWithinRange(4.5, 0, 1000)).toThrow(
       'Provided value for `multiplesOf` must be an integer',
     );
   });
 
   it('throws an error if the number at the start of the range is not an integer', () => {
-    expect(() => multiplesWithinRange(5, 0.5, 1000)).toThrowError(
+    expect(() => multiplesWithinRange(5, 0.5, 1000)).toThrow(
       'Provided value for `startRange` must be an integer',
     );
   });
 
   it('throws an error if the number at the end of the range is not an integer', () => {
-    expect(() => multiplesWithinRange(5, 0, 999.9)).toThrowError(
+    expect(() => multiplesWithinRange(5, 0, 999.9)).toThrow(
       'Provided value for `endRange` must be an integer',
     );
   });
