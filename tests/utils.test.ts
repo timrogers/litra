@@ -11,9 +11,7 @@ describe('integerToBytes', () => {
   });
 
   it('throws an error if the parameter is not an integer', () => {
-    expect(() => integerToBytes(1337.9)).toThrow(
-      'Provided value must be an integer',
-    );
+    expect(() => integerToBytes(1337.9)).toThrow('Provided value must be an integer');
   });
 });
 
